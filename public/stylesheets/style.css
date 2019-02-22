@@ -1,23 +1,14 @@
-/*body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}*/
-
-body{
+body {
   text-align: center;
   background-color: silver;
   font-family: Arial, Helvetica, sans-serif;
 }
 h1 {
-  background-color: maroon;
+  background-color: rgb(81, 0, 0);
   color: white;
 }
 h2 {
-  background-color: maroon;
+  background-color: rgb(81, 0, 0);
   color: darkgray;
 }
 input {
