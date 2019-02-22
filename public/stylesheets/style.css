@@ -1,15 +1,12 @@
 body {
   text-align: center;
-  background-color: silver;
   font-family: Arial, Helvetica, sans-serif;
 }
 h1 {
   background-color: rgb(81, 0, 0);
-  color: white;
 }
 h2 {
   background-color: rgb(81, 0, 0);
-  color: darkgray;
 }
 input {
   padding: 5px 5px;
