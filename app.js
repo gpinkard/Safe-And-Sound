@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+var db = require('./app_db/db');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -37,5 +39,19 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+/*
+ * starter code for db
+db.connect(db.MODE_PRODUCTION, function(err) {
+	if(err) {
+		console.log('cannot connect to mysql, err: ' + err);
+		process.exit(1);
+	} else {
+		app.listen(3000, function() {
+			console.log('listening on port 3000');
+		});
+	}
+});
+*/
 
 module.exports = app;
