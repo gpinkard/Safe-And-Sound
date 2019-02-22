@@ -1,0 +1,42 @@
+doctype html
+html(lang='en')
+  head
+    link(rel='stylesheet', href='student.css')
+  body
+    h1
+      br
+      | UPS Safe Check In
+      br
+    h2
+      | Please fill out the following information
+      br
+      | to mark yourself safe during an emergency.
+    br
+    form(action='//actionpage', method='post')
+      | First name:
+      br
+      input(type='text', name='firstname', value='First')
+      br
+      br
+      | Last name:
+      br
+      input(type='text', name='lastname', value='Last')
+      br
+      br
+      | Puget Sound Email:
+      br
+      input(type='text', name='email', value='@pugetsound.edu')
+      br
+      br
+      | Contact info (phone number):
+      br
+      input(type='text', name='phone', value='***-***-****')
+      br
+      br
+      | Student ID:
+      br
+      input(type='text', name='studentID', value='*******')
+      br
+      br
+      br
+      input(type='submit', value='Safe')

@@ -1,8 +1,32 @@
-body {
+/*body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}*/
+
+body{
+  text-align: center;
+  background-color: silver;
+  font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+  background-color: maroon;
+  color: white;
+}
+h2 {
+  background-color: maroon;
+  color: darkgray;
+}
+input {
+  padding: 5px 5px;
+  margin: 5px 0px;
+}
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 18px;
+  padding: 16px 32px;
 }
