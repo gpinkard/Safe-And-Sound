@@ -1,4 +1,5 @@
 var express = require('express');
+var request = require('request');
 var app = express();
 
 module.exports.sendStudentData = function(req, res) {
@@ -10,8 +11,8 @@ module.exports.sendStudentData = function(req, res) {
 };
 
 
-app.use(sendStudentData);
-
+/*
 app.get('/studentlogin', function(req, res, next) {
 	console.log('testing...');
 });
+*/
