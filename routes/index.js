@@ -1,11 +1,26 @@
 var express = require('express');
 var router = express.Router();
 
-var ctrlStudent = ('../app_client/student/controllers/student');
+var ctrlStudent = require('../app_client/student/controllers/student');
 
 router.get('/studentlogin', function(req, res, next) {
-	ctlrStudent.sendStudentData(req, res);
+	res.render('studentFacing');
+});
+
+router.post('/studentlogin', ctrlStudent.sendStudentData);
+
+
+/*
+router.get('/', function(req, res, next) {
+	console.log('this is the home page');
+	//res.render('studentFacing', {title: 'test'});
+});
+
+router.get('/studentlogin', function(req, res) {
+	//console.log('FUCK THE ENTIRE UNIVERSE');
+	ctrlStudent.sendStudentData(req, res);
 	res.render('studentFacing', { title: 'Student login' });
 });
+*/
 
 module.exports = router;
