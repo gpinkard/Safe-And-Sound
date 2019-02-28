@@ -1,13 +1,12 @@
 var express = require('express');
-var request = require('request');
 var app = express();
 
-module.exports.sendStudentData = function(req, res) {
-	console.log('req');
+module.exports.sendStudentData = function(req, res, next) {
+	console.log('req:');
 	console.log(req);
-	console.log('res');
-	console.log(res);
-	next();
+	//console.log('res:');
+	//console.log(res);
+	//next();
 };
 
 
