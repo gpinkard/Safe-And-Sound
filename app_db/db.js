@@ -12,7 +12,8 @@ var conn = mysql.createConnection({
 	host: array[0],
 	user: array[1],
 	password: array[2],
-	//database: array[3],
+	database: array[3],
+  port: '3306'
 });
 
 conn.connect(function(err) {
