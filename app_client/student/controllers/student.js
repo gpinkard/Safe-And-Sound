@@ -3,7 +3,7 @@ var app = express();
 var mysql = require('mysql');
 var fs  = require("fs");
 
-var database = require('../../../app_db/db.js');
+var database = require('../Safe-And-Sound/app_db/db.js');
 
 module.exports.sendStudentData = function(req, res) {
 	console.log('made it to sendStudentData');
@@ -23,7 +23,7 @@ module.exports.sendStudentData = function(req, res) {
 	var studentID = req.body.studentID;
 
 	console.log('handing data to sql');
-	database.studentQuery(database.conn, Student, firstname, lastname, email, phone);
+	database.studentQuery(database.conn, 'Student', firstname, lastname, email, phone);
 	console.log('completed data handoff');
 	//console.log('res:');
 	//console.log(res);
