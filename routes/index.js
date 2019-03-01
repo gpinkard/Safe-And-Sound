@@ -8,7 +8,7 @@ router.get('/studentlogin', function(req, res) {
 });
 
 console.log('before the post stuff');
-router.post('/studentlogin', ctrlStudent.sendStudentData(req, res));
+router.post('/studentlogin', ctrlStudent.sendStudentData);
 
 
 /*
