@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
 var fs  = require('fs');
-var array = fs.readFileSync("apples.json");
+var array = fs.readFileSync('../Safe-And-Sound/app_db/apples.json');
 var arrayStr = JSON.parse(array);
 // for(i in array){
 //   console.log(array[i]);
