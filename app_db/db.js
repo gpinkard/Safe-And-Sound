@@ -23,11 +23,11 @@ conn.connect(function(err) {
 	}
 });
 
-function exampleQuery(connection, table) {
+function exampleQuery(conn, table) {
 	connection.query("SELECT * FROM " + table);
 }
 
-function studentQuery(connection, table, firstname, lastname, email, phone) {
+function studentQuery(conn, table, firstname, lastname, email, phone) {
   console.log('in studentQuery');
   //unclear what we need to put here??
 }
