@@ -28,5 +28,5 @@ function exampleQuery(conn, table) {
 }
 
 exports.studentQuery = function (firstname, lastname, email, phone) {
-  conn.query(INSERT IGNORE into Student values (email, firstname, lastname, phone));
+  conn.query('INSERT IGNORE into Student values (email, fName, lName, phoneNum)');
 }
