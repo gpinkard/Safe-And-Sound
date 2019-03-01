@@ -3,7 +3,7 @@ var app = express();
 var mysql = require('mysql');
 var fs  = require("fs");
 
-var database = '../../../app_db/db.js';
+var database = '../../../app_db/db';
 
 module.exports.sendStudentData = function(req, res) {
 	console.log('made it to sendStudentData');
