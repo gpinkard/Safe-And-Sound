@@ -3,11 +3,12 @@ var router = express.Router();
 
 var ctrlStudent = require('../app_client/student/controllers/student');
 
-router.get('/studentlogin', function(req, res, next) {
+router.get('/studentlogin', function(req, res) {
 	res.render('studentFacing');
 });
 
-router.post('/studentlogin', ctrlStudent.sendStudentData);
+console.log('before the post stuff');
+router.post('/studentlogin', ctrlStudent.sendStudentData(req, res));
 
 
 /*
