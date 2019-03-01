@@ -7,7 +7,6 @@ router.get('/studentlogin', function(req, res) {
 	res.render('studentFacing');
 });
 
-console.log('before the post stuff');
 router.post('/studentlogin', ctrlStudent.sendStudentData);
 
 
