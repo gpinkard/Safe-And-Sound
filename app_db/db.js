@@ -27,6 +27,6 @@ function exampleQuery(conn, table) {
 	connection.query("SELECT * FROM " + table);
 }
 
-exports.studentQuery = function (conn, table, firstname, lastname, email, phone) {
-  conn.query(INSERT IGNORE into table values (email, firstname, lastname, phone));
+exports.studentQuery = function (firstname, lastname, email, phone) {
+  conn.query(INSERT IGNORE into Student values (email, firstname, lastname, phone));
 }

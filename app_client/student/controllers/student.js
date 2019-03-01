@@ -23,7 +23,7 @@ module.exports.sendStudentData = function(req, res) {
 	var studentID = req.body.studentID;
 
 	console.log('handing data to sql');
-	database.studentQuery(database.conn, 'Student', firstname, lastname, email, phone);
+	database.studentQuery(firstname, lastname, email, phone);
 	console.log('completed data handoff');
 	//console.log('res:');
 	//console.log(res);
