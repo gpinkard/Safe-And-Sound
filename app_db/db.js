@@ -2,7 +2,7 @@ var mysql = require('mysql');
 
 var fs  = require('fs');
 var array = fs.readFileSync('apples.txt').toString().split('\n');
-
+console.log(array[0]);
 // for(i in array){
 //   console.log(array[i]);
 // }
