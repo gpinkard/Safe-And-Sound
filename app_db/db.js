@@ -1,19 +1,17 @@
 var mysql = require('mysql');
 
 var fs  = require('fs');
-var array = fs.readFileSync('apples.txt').toString().split('\n');
-console.log(array[0]);
+var array = fs.readFileSync("apples.json");
+var arrayStr = JSON.parse(array);
 // for(i in array){
 //   console.log(array[i]);
 // }
 
 var conn = mysql.createConnection({
 	// subject to change :)
-	host: array[0],
-	user: array[1],
-	password: array[2],
-	database: array[3],
-  port: '3306'
+	host: arrayStr.host,
+	user: arrayStr.user,
+	password: arrayStr.password
 });
 
 conn.connect(function(err) {
