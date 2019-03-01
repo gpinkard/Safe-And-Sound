@@ -28,6 +28,5 @@ function exampleQuery(conn, table) {
 }
 
 exports.studentQuery = function (conn, table, firstname, lastname, email, phone) {
-  console.log('in studentQuery');
-  //unclear what we need to put here??
+  conn.query(INSERT IGNORE into table values (email, firstname, lastname, phone));
 }
