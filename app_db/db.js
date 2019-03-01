@@ -27,7 +27,7 @@ function exampleQuery(conn, table) {
 	connection.query("SELECT * FROM " + table);
 }
 
-function studentQuery(conn, table, firstname, lastname, email, phone) {
+exports.studentQuery = function (conn, table, firstname, lastname, email, phone) {
   console.log('in studentQuery');
   //unclear what we need to put here??
 }
