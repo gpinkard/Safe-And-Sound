@@ -11,7 +11,8 @@ var conn = mysql.createConnection({
 	// subject to change :)
 	host: arrayStr.host,
 	user: arrayStr.user,
-	password: arrayStr.password
+	password: arrayStr.password,
+  database: arrayStr.database
 });
 
 conn.connect(function(err) {
