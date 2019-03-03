@@ -13,4 +13,5 @@ html(lang='en')
       br
       | Your information has been sent.
     br
-    button(type='button', onclick="alert('Return to the page')") Return to Check In
+    form(action='/studentlogin')
+      input(type='submit', value='Return to Check In')
