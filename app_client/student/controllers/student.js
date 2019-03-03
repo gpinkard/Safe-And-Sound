@@ -7,8 +7,6 @@ var database = require('../../../app_db/db');
 
 module.exports.sendStudentData = function(req, res) {
 	console.log('made it to sendStudentData');
-	console.log('req:');
-	console.log(req);
 
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
@@ -25,6 +23,7 @@ module.exports.sendStudentData = function(req, res) {
 	console.log('handing data to sql');
 	database.studentQuery(firstname, lastname, email, phone);
 	console.log('completed data handoff');
+	res.render('confirmed');
 	//console.log('res:');
 	//console.log(res);
 	//next();
