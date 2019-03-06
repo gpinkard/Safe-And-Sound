@@ -1,4 +1,0 @@
-ls-627573852720446d2e33e1b94d4d55969ef79f7d.cmlqmd9ptroi.us-west-2.rds.amazonaws.com
-admin
-JakeUseLinux
-Database-Oregon-1
