@@ -24,7 +24,7 @@ conn.connect(function(err) {
 	}
 });
 
-exports.selectQuery(table) {
+exports.selectQuery = function(table) {
 	connection.query("SELECT * FROM " + table);
 }
 
