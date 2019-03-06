@@ -1,13 +1,13 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
-var fs  = require('fs');
-var array = fs.readFileSync('../Safe-And-Sound/app_db/apples.json');
-var arrayStr = JSON.parse(array);
+const fs  = require('fs');
+const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
+const arrayStr = JSON.parse(array);
 // for(i in array){
 //   console.log(array[i]);
 // }
 
-var conn = mysql.createConnection({
+const conn = mysql.createConnection({
 	// subject to change :)
 	host: arrayStr.host,
 	user: arrayStr.user,
@@ -30,4 +30,4 @@ function exampleQuery(conn, table) {
 
 exports.studentQuery = function (firstname, lastname, email, phone) {
   conn.query('INSERT IGNORE into Student values (email, fName, lName, phoneNum)');
-}
+};
