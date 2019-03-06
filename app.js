@@ -1,15 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
-var db = require('./app_db/db');
+const db = require('./app_db/db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,19 +40,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-/*
- * starter code for db
-db.connect(db.MODE_PRODUCTION, function(err) {
-	if(err) {
-		console.log('cannot connect to mysql, err: ' + err);
-		process.exit(1);
-	} else {
-		app.listen(3000, function() {
-			console.log('listening on port 3000');
-		});
-	}
-});
-*/
 
 module.exports = app;

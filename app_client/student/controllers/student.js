@@ -1,9 +1,9 @@
-var express = require('express');
-var app = express();
-var mysql = require('mysql');
-var fs  = require("fs");
+const express = require('express');
+const app = express();
+const mysql = require('mysql');
+const fs  = require("fs");
 
-var database = require('../../../app_db/db');
+const database = require('../../../app_db/db');
 
 module.exports.sendStudentData = function(req, res) {
 	console.log('made it to sendStudentData');
