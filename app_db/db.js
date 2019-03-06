@@ -20,14 +20,14 @@ conn.connect(function(err) {
     console.log(err);
 		throw err;
 	} else {
-		console.log("now connected to database " + conn.database);
+		console.log("now connected to database " + arrayStr.database);
 	}
 });
 
-function exampleQuery(conn, table) {
+exports.selectQuery(table) {
 	connection.query("SELECT * FROM " + table);
 }
 
 exports.studentQuery = function (firstname, lastname, email, phone) {
-  conn.query('INSERT IGNORE into Student values (email, fName, lName, phoneNum)');
+  conn.query('INSERT IGNORE INTO Student VALUES (${email}, ${fName}, ${lName}, ${phoneNum})');
 };
