@@ -29,5 +29,5 @@ exports.selectQuery = function(table) {
 }
 
 exports.studentQuery = function (firstname, lastname, email, phone) {
-  conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone"')");
+  conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
 };
