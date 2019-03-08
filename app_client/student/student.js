@@ -18,6 +18,7 @@ module.exports.initStudentData = (req, res) => {
 	var time = d.getTime();
 	//var studentID = req.body.studentID;
 	database.insertStudentData(firstname, lastname, email, phone, time);
+	res.render('confirmed');
 };
 
 module.exports.studentCheckIn = (req, res) => {
