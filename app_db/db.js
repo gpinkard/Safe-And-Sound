@@ -27,7 +27,7 @@ exports.selectQuery = (table) => {
 // insert student data into the database (this is when they register)
 exports.insertStudentData = (firstname, lastname, email, phone, time) => {
 	conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
-	conn.query("INSERT INTO CheckIn VALUES ('"+phone+"', '"+time+"', 0, 0)")
+	//conn.query("INSERT INTO CheckIn VALUES ('"+phone+"', '"+time+"', 0, 0)");
 };
 
 // gets students name, email, status, gpsloc, timestamp
