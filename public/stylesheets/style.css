@@ -1,12 +1,15 @@
 body {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #D7D7D7;
 }
 h1 {
   background-color: rgb(81, 0, 0);
+  color: #e6e6e6;
 }
 h2 {
   background-color: rgb(81, 0, 0);
+  color: #e6e6e6;
 }
 input {
   padding: 5px 5px;
@@ -14,7 +17,7 @@ input {
 }
 input[type=submit] {
   background-color: #4CAF50;
-  color: white;
+  color: #e6e6e6;
   font-size: 18px;
   padding: 16px 32px;
 }
