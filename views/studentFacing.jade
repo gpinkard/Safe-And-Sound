@@ -4,9 +4,9 @@ html(lang='en')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     h1
-      br
+      img(src="../UPS-logo.svgz")
+      |
       | Safe and Sound
-      br
     h2
       | Please fill out the following information
       br
@@ -15,12 +15,12 @@ html(lang='en')
     form(method='post')
       | First name:
       br
-      input(type='text', name='firstname', value='First', required='')
+      input(type='text', name='firstname', placeholder='Grizz', required='')
       br
       br
       | Last name:
       br
-      input(type='text', name='lastname', value='Last', required='')
+      input(type='text', name='lastname', placeholder='Logger', required='')
       br
       br
       | Puget Sound Email:
@@ -30,7 +30,7 @@ html(lang='en')
       br
       | Contact info (phone number):
       br
-      input(type='text', name='phone', value='**********', required='')
+      input(type='text', name='phone', placeholder='2538793311', required='')
       br
       br
       br
