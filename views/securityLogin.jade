@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+  head
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1
+      | Safe and Sound
+    h2
+      | Welcome to the Security Login Page!
+      br
+      | Please enter your credentials to continue.
+    br
+    form(method='post')
+      | Username:
+      br
+      input(type='text', name='username', required='')
+      br
+      br
+      | Password:
+      br
+      input(type='text', name='password', required='')
+      
+      input(type='submit', value='Login')

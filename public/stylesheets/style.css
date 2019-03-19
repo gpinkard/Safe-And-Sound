@@ -5,11 +5,15 @@ body {
 }
 h1 {
   background-color: rgb(81, 0, 0);
-  color: #e6e6e6;
+  color: #C0C0C0;
 }
 h2 {
   background-color: rgb(81, 0, 0);
-  color: #e6e6e6;
+  color: #C0C0C0;
+}
+#login {
+  position: fixed, bottom: 0;
+  color: 808080;
 }
 input {
   padding: 5px 5px;
@@ -17,7 +21,7 @@ input {
 }
 input[type=submit] {
   background-color: #4CAF50;
-  color: #e6e6e6;
+  color: #C0C0C0;
   font-size: 18px;
   padding: 16px 32px;
 }
