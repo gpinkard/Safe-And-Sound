@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+  head
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1
+      | Safe and Sound
+    h2
+      | For University of Puget Sound Security Use Only
+      br
+      | Please select what you would like to do:
+    br
+    button(type='button', onclick="alert('Are you sure you want to clear the database?')") Clear Database
+    br
+    button(type='button', onclick="alert('An email has been sent to you.')") Export Database
+    br
+    button(type='button', onclick="alert('Which student do you want to edit?')") Edit Student Values
+    br

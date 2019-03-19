@@ -16,4 +16,8 @@ router.get('/securityLogin', (req, res) => {
 
 router.post('/securityLogin', ctrlSecurity.ensureLogin);
 
+router.get('/security', (req, res) => {
+	res.render('securityOnly');
+});
+
 module.exports = router;

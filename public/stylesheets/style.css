@@ -12,7 +12,8 @@ h2 {
   color: #C0C0C0;
 }
 #login {
-  position: fixed, bottom: 0;
+  position: fixed;
+  bottom: 0;
   color: #808080;
 }
 input {
@@ -24,4 +25,14 @@ input[type=submit] {
   color: #C0C0C0;
   font-size: 18px;
   padding: 16px 32px;
+  border-radius: 8px;
+}
+a {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #808080;
+}
+button {
+  font-size: 18px;
+  padding: 16px 32px;
+  border-radius: 8px;
 }
