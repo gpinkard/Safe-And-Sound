@@ -14,7 +14,15 @@ router.get('/securityLogin', (req, res) => {
 	res.render('securityLogin');
 });
 
-router.post('/securityLogin', ctrlSecurity.ensureLogin);
+router.post('/securityLogin', (req, res) => {
+	//things about login
+	//send to security only page
+	const username = 'security';
+	const password = 'password';
+	if(req.username == username && req.password == password){
+		res.render('securityOnly');
+	}
+});
 
 router.get('/security', (req, res) => {
 	res.render('securityOnly');
