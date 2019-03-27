@@ -28,6 +28,7 @@ router.post('/securityLogin', (req, res) => {
 	const username = 'security';
 	const password = 'password';
 	if(req.body.username === username && req.body.password === password){
+		req.session.user_id = 'securityOn';
 		res.redirect('/security');
 	}
 });
