@@ -10,6 +10,14 @@ router.get('/studentlogin', (req, res) => {
 
 router.post('/studentlogin', ctrlStudent.initStudentData);
 
+function checkAuth(req, res, next) {
+  if (!req.session.user_id) {
+    res.send('You are not authorized to view this page');
+  } else {
+    next();
+  }
+}
+
 router.get('/securityLogin', (req, res) => {
 	res.render('securityLogin');
 });
@@ -19,12 +27,12 @@ router.post('/securityLogin', (req, res) => {
 	//send to security only page
 	const username = 'security';
 	const password = 'password';
-	if(req.username == username && req.password == password){
-		res.render('securityOnly');
+	if(req.body.username === username && req.body.password === password){
+		res.redirect('/security');
 	}
 });
 
-router.get('/security', (req, res) => {
+router.get('/security', checkAuth, (req, res) => {
 	res.render('securityOnly');
 });
 
