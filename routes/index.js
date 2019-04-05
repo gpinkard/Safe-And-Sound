@@ -7,7 +7,7 @@ var passport = require('passport')
 var user = {
 	username: 'security',
 	password: 'password'
-}
+};
 
 var ctrlStudent = require('../app_client/student/student');
 var ctrlSecurity = require('../app_client/security/security');
@@ -54,5 +54,11 @@ router.post('/securityLogin', passport.authenticate('local', { successRedirect: 
 router.get('/security', (req, res) => {
 	res.render('securityOnly');
 });
+
+router.get('/clearDatabase', (req, res) => {
+	res.render('clearDatabase');
+});
+
+router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
 module.exports = router;
