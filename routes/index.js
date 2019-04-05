@@ -6,7 +6,7 @@ var passport = require('passport'), LocalStrategy = require('passport-local').St
 var user = {
 	username: 'security',
 	password: 'password'
-}
+};
 
 var ctrlStudent = require('../app_client/student/student');
 var ctrlSecurity = require('../app_client/security/security');
@@ -59,5 +59,11 @@ router.get('/security', (req, res) => {
 });
 
 router.post('/security', ctrlSecurity.buttons);
+
+router.get('/clearDatabase', (req, res) => {
+	res.render('clearDatabase');
+});
+
+router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
 module.exports = router;

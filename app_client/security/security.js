@@ -26,7 +26,6 @@ module.exports.clearDBbutton = (req, res) => {
 			console.log("fuck me 2");
 			res.send("Database Cleared.");
 		}
-		else 
 	};
 // passport.use(new LocalStrategy(
 //   function(username, password, done) {
@@ -38,3 +37,6 @@ module.exports.clearDBbutton = (req, res) => {
 //     });
 //   }
 // ));
+module.exports.clearDatabase = (req, res) => {
+	//insert clear code here...
+};
