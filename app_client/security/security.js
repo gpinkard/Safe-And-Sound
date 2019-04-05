@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+const flash = require('express-flash-2');
 const mysql = require('mysql');
 const fs  = require("fs");
 
@@ -19,6 +19,9 @@ module.exports.ensureLogin = (req, res) => {
 	}
 };
 
+/**
+A back end function to clear the database.
+*/
 module.exports.clearDatabase = (req, res) => {
 	if(req.body.dbClear === 'CLEARDB'){
 		var d = new Date();
@@ -29,8 +32,26 @@ module.exports.clearDatabase = (req, res) => {
 	} else{
 		res.render('clearDatabase');
 	}
-
 };
+
+/**
+A back end function to export the database.
+*/
+module.exports.securityOnlyButtons = (req, res) => {
+	console.log(req.body.secButtons);
+	if(req.body.secButtons === true){
+		var d = new Date();
+		var time = d.getTime();
+		console.log("Database exported: " + time);
+		database.exportTable();
+		res.render('securityOnly');
+
+	} else res.flash('Wrong input', 'bruh');
+};
+
+
+
+
 // passport.use(new LocalStrategy(
 //   function(username, password, done) {
 //     User.findOne({ username: username }, function (err, user) {

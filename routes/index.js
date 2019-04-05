@@ -54,6 +54,8 @@ router.get('/security', (req, res) => {
 	res.render('securityOnly');
 });
 
+router.post('/security', ctrlSecurity.securityOnlyButtons);
+
 router.get('/clearDatabase', (req, res) => {
 	res.render('clearDatabase');
 });
