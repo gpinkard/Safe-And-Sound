@@ -58,12 +58,14 @@ router.get('/security', (req, res) => {
 	res.render('securityOnly');
 });
 
-router.post('/security', ctrlSecurity.buttons);
-
 router.get('/clearDatabase', (req, res) => {
 	res.render('clearDatabase');
 });
 
 router.post('/clearDatabase', ctrlSecurity.clearDatabase);
+
+router.get('/deleteConfirm', (req, res) => {
+	res.render('deleteConfirm');
+});
 
 module.exports = router;

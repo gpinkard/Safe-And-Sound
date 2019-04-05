@@ -19,14 +19,18 @@ module.exports.ensureLogin = (req, res) => {
 	}
 };
 
-module.exports.clearDBbutton = (req, res) => {
-	console.log("fuckme");
-	console.log(req.dbClear);
-		if(req.dbClear === 'CLEARDB'){
-			console.log("fuck me 2");
-			res.send("Database Cleared.");
-		}
-	};
+module.exports.clearDatabase = (req, res) => {
+	if(req.body.dbClear === 'CLEARDB'){
+		var d = new Date();
+		var time = d.getTime();
+		console.log("Database cleared: " + time);
+		database.deleteTable("Student");
+		res.render('deleteConfirm');
+	} else{
+		res.render('clearDatabase');
+	}
+
+};
 // passport.use(new LocalStrategy(
 //   function(username, password, done) {
 //     User.findOne({ username: username }, function (err, user) {
@@ -37,6 +41,3 @@ module.exports.clearDBbutton = (req, res) => {
 //     });
 //   }
 // ));
-module.exports.clearDatabase = (req, res) => {
-	//insert clear code here...
-};
