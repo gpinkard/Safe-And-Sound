@@ -3,9 +3,7 @@ const mysql = require('mysql');
 const fs  = require('fs');
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
-// for(i in array){
-//   console.log(array[i]);
-// }
+
 
 const conn = mysql.createConnection({
 	// subject to change :)
