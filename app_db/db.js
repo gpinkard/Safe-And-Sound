@@ -46,7 +46,7 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
-exports.exportTable = function(){
+exports.exportTable = function(){//table){
 	conn.query();
 };
 
