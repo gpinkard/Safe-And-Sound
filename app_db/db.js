@@ -13,9 +13,9 @@ const conn = mysql.createConnection({
   database: arrayStr.database
 });
 
-conn.connect(function(err) {
+conn.connect( (err) => {
 	if(err) {
-    console.log(err);
+    		console.log(err);
 		throw err;
 	} else {
 		console.log("now connected to database " + arrayStr.database);
@@ -25,27 +25,27 @@ conn.connect(function(err) {
 /*
 	A function to select a table.
 */
-exports.selectQuery = function(table) {
+exports.selectQuery = (table) => {
 	conn.query("SELECT * FROM " + table);
-}
+};
 
 /*
 	A function to insert into the student table.
 */
-exports.studentQuery = function (firstname, lastname, email, phone) {
+exports.studentQuery = (firstname, lastname, email, phone) => {
   conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
 };
 
 /*
 	A function to clear all values from the given table
 */
-exports.deleteTable = function(table) {
+exports.deleteTable = (table) => {
 	conn.query("DELETE FROM " + table);
-}
+};
 
 /*
 	A function to output a .csv file
 */
 exports.exportTable = function(){
 	conn.query();
-}
+};
