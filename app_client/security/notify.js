@@ -46,6 +46,8 @@ const sendSecurityReport = () => {
 	};
 
 	transporter.sendMail(mailOptions, (err, info) => {
+		console.log('info:');
+		console.log(info);
 		if(err) throw err;
 		else console.log(now + ': sending email to security services');
 	});
