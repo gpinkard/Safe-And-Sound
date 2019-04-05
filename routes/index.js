@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
 
 var user = {
 	username: 'security',
@@ -41,6 +40,10 @@ router.get('/studentlogin', (req, res) => {
 	res.render('studentFacing');
 });
 
+router.get('/', (req, res) => {
+	res.render('studentFacing');
+});
+
 router.post('/studentlogin', ctrlStudent.initStudentData);
 
 router.get('/securityLogin', (req, res) => {
@@ -60,5 +63,9 @@ router.get('/clearDatabase', (req, res) => {
 });
 
 router.post('/clearDatabase', ctrlSecurity.clearDatabase);
+
+router.get('/deleteConfirm', (req, res) => {
+	res.render('deleteConfirm');
+});
 
 module.exports = router;

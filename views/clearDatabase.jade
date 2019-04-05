@@ -7,6 +7,8 @@ html(lang='en')
       | Safe and Sound
     br
     form(method='post')
-      | Are you sure that you want to clear the database?
+      | Enter CLEARDB to confirm you would like to clear the database.
+      br
+      input(type="text", name="dbClear", required='')
       br
       input(type='submit', value='Clear')
