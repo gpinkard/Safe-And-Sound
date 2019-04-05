@@ -8,6 +8,10 @@ router.get('/studentlogin', (req, res) => {
 	res.render('studentFacing');
 });
 
+router.get('/', (req, res) => {
+	res.render('studentFacing');
+});
+
 router.post('/studentlogin', ctrlStudent.initStudentData);
 
 function checkAuth(req, res, next) {
@@ -33,8 +37,10 @@ router.post('/securityLogin', (req, res) => {
 	}
 });
 
-router.get('/security', checkAuth, (req, res) => {
+router.get('/security', (req, res) => {
 	res.render('securityOnly');
 });
+
+router.post('/security', ctrlSecurity.buttons);
 
 module.exports = router;

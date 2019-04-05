@@ -10,9 +10,12 @@ html(lang='en')
       br
       | Please select what you would like to do:
     br
-    button(type='button', onclick="alert('Are you sure you want to clear the database?')") Clear Database
+    form(method='post')
+      button(type='submit', name='adminButtons', value='cleardb') Clear Database
     br
     button(type='button', onclick="alert('An email has been sent to you.')") Export Database
     br
     button(type='button', onclick="alert('Which student do you want to edit?')") Edit Student Values
     br
+
+      

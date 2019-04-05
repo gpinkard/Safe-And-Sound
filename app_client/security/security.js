@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
-//const mysql = require('mysql');
-//const fs  = require("fs");
+const mysql = require('mysql');
+const fs  = require("fs");
+
+const database = require('../../app_db/db.js');
 
 module.exports.ensureLogin = (req, res) => {
 	//things about login
@@ -12,3 +14,12 @@ module.exports.ensureLogin = (req, res) => {
 		res.render('securityOnly');
 	}
 };
+
+module.exports.buttons = (req, res) => {
+	console.log("fuckme2");
+	console.log(req.body.adminButtons);
+		if(req.body.adminButtons == 'cleardb'){
+			console.log("fuck me");
+			res.render(prompt("Please enter CLEARDB to confirm you would like to clear the database."));
+		}
+	};
