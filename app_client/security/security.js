@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
-const flash = require('express-flash-2');
+
 const mysql = require('mysql');
 const fs  = require("fs");
+
+
 
 const database = require('../../app_db/db.js');
 
@@ -43,10 +45,10 @@ module.exports.securityOnlyButtons = (req, res) => {
 		var d = new Date();
 		var time = d.getTime();
 		console.log("Database exported: " + time);
-		database.exportTable();
+		database.exportTable('../../app_db/SecurityReports');
 		res.render('securityOnly');
 
-	} else res.flash('Wrong input', 'bruh');
+	} else res.render('securityOnly');
 };
 
 

@@ -46,11 +46,7 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
-exports.exportTable = function(){//table){
-	conn.query();
-};
-
-exports.exportToCSV = (path) => {
+exports.exportTable = (path) => {
 	conn.query('SELECT lName, fName, phoneNum, email, lat, lng, MAX(timeOf) from Student NATURAL JOIN CheckIn GROUP BY phoneNum order by lName', (err, students, fields) => {
 		if(err) throw err;
 
