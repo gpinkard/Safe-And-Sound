@@ -36,15 +36,11 @@ passport.deserializeUser(function(username, cb) {
 	}
 });
 
-router.get('/studentlogin', (req, res) => {
-	res.render('studentFacing');
-});
-
 router.get('/', (req, res) => {
 	res.render('studentFacing');
 });
 
-router.post('/studentlogin', ctrlStudent.initStudentData);
+router.post('/', ctrlStudent.initStudentData);
 
 router.get('/securityLogin', (req, res) => {
 	res.render('securityLogin');
