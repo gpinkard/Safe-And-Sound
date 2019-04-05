@@ -4,38 +4,50 @@ const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
 const parser = require('json2csv').Parser;
 
+
 const conn = mysql.createConnection({
 	// subject to change :)
 	host: arrayStr.host,
 	user: arrayStr.user,
 	password: arrayStr.password,
-	database: arrayStr.database
+  database: arrayStr.database
 });
 
 conn.connect( (err) => {
 	if(err) {
+    		console.log(err);
 		throw err;
 	} else {
 		console.log('now connected to database ' + arrayStr.database);
 	}
 });
 
+/*
+	A function to select a table.
+*/
 exports.selectQuery = (table) => {
-	connection.query('SELECT * FROM ' + table);
+	conn.query("SELECT * FROM " + table);
 };
 
-// insert student data into the database (this is when they register)
-exports.insertStudentData = (firstname, lastname, email, phone, time) => {
-	conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
-	//conn.query("INSERT INTO CheckIn VALUES ('"+phone+"', '"+time+"', 0, 0)");
+/*
+	A function to insert into the student table.
+*/
+exports.studentQuery = (firstname, lastname, email, phone) => {
+  conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
 };
 
-// gets students name, email, status, gpsloc, timestamp
-exports.getStudentData = (err) => {
-	// put conn.query() here
-	if(err) {
-		throw(err);
-	}
+/*
+	A function to clear all values from the given table
+*/
+exports.deleteTable = (table) => {
+	conn.query("DELETE FROM " + table);
+};
+
+/*
+	A function to output a .csv file
+*/
+exports.exportTable = function(){
+	conn.query();
 };
 
 exports.exportToCSV = (path) => {

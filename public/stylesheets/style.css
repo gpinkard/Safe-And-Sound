@@ -1,15 +1,14 @@
 body {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #D7D7D7;
 }
 h1 {
   background-color: rgb(81, 0, 0);
-  color: #C0C0C0;
+  color: #ffffff;
 }
 h2 {
   background-color: rgb(81, 0, 0);
-  color: #C0C0C0;
+  color: #ffffff;
 }
 #login {
   position: fixed;
@@ -22,7 +21,6 @@ input {
 }
 input[type=submit] {
   background-color: #4CAF50;
-  color: #C0C0C0;
   font-size: 18px;
   padding: 16px 32px;
   border-radius: 8px;
