@@ -12,7 +12,8 @@ html(lang='en')
     br
     button(type='button', onclick="location='clearDatabase'") Clear Database
     br
-    button(type='button', onclick="alert('An email has been sent to you.')") Export Database
-    br
-    button(type='button', onclick="alert('Which student do you want to edit?')") Edit Student Values
-    br
+    form(method='post')
+      button(type='submit', name="secButtons", onclick="value=confirm('Click confirm to have a copy of the database sent to your email.')") Export Database
+      br
+      button(type='button', onclick="alert('Which student do you want to edit?')") Edit Student Values
+br
