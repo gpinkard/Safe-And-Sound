@@ -2,3 +2,4 @@ node_modules/
 package-lock.json
 app_db/db.json
 app_client/security/password.txt
+authentication/

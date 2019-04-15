@@ -24,6 +24,7 @@ input[type=submit] {
   font-size: 18px;
   padding: 16px 32px;
   border-radius: 8px;
+  color: #ffffff;
 }
 a {
   font-family: Arial, Helvetica, sans-serif;
