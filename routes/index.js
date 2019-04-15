@@ -77,31 +77,31 @@ router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '
 	res.render('securityOnly');
 });
 
-router.get('/security', passport.authenticate('local'), (req, res) => {
+router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.render('securityOnly');
 	} else {
-		res.render('/securityLogin');
+		res.redirect('/securityLogin');
 	}
 });
 
 router.post('/security', ctrlSecurity.securityOnlyButtons);
 
-router.get('/clearDatabase', passport.authenticate('local'), (req, res) => {
+router.get('/clearDatabase', (req, res) => {
 	if(req.isAuthenticated()) {
-		res.render('/clearDatabase');
+		res.render('clearDatabase');
 	} else {
-		res.render('/securityLogin');
+		res.redirect('/securityLogin');
 	}
 });
 
 router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
-router.get('/deleteConfirm', passport.authenticate('local'), (req, res) => {
+router.get('/deleteConfirm', (req, res) => {
 	if(req.isAuthenticated()) {
-		res.render('/deleteConfirm');
+		res.render('deleteConfirm');
 	} else {
-		res.render('/securityLogin');
+		res.redirect('/securityLogin');
 	}
 });
 
