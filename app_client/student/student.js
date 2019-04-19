@@ -23,7 +23,7 @@ module.exports.initStudentData = (req, res) => {
 	var phone = req.body.phone;
 	var lat = req.body.lat;
 	var lon = req.body.lon;
-	console.log('lat: ' + lat + ' lon: ' + lon);
+	//console.log('lat: ' + lat + ' lon: ' + lon);
 	var d = new Date();
 	var time = d.getTime();
 	//var studentID = req.body.studentID;
