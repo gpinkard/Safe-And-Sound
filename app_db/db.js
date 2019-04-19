@@ -38,6 +38,13 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 };
 
 /*
+	A fuction to insert into the checkIn table.
+*/
+exports.checkInQuery = (lat, lng, phone) => {
+	conn.query("INSERT INTO CheckIn VALUES ('"+makeNumericDateString()+"', '"+lat+"', '"+lng+"', '"+phone+"')");
+};
+
+/*
 	A function to clear all values from the given table
 */
 exports.deleteTable = (table) => {
