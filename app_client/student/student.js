@@ -22,25 +22,28 @@ module.exports.initStudentData = (req, res) => {
 	var email = req.body.email;
 	var phone = req.body.phone;
 	var lat = req.body.lat;
-	var lon = req.body.lon;
-	//console.log('lat: ' + lat + ' lon: ' + lon);
-	var d = new Date();
-	var time = d.getTime();
+	var lng = req.body.lng;
+	//console.log('lat: ' + lat + ' lng: ' + lng);
+	// var d = new Date();
+	// var time = d.getTime();
 	//var studentID = req.body.studentID;
 	database.studentQuery(firstname, lastname, email, phone, time);
+	console.log("1");
+	database.checkInQuery(lat, lng, phone);
+	console.log("2");
 	res.render('confirmed');
 };
 
-module.exports.studentCheckIn = (req, res) => {
-	var firstname = req.body.firstname;
-	var lastname = req.body.lastname;
-	var email = req.body.email;
-	var phone = req.body.phone;
-	var studentID = req.body.studentID;
-	var safe = req.body.studentsafe;
-	var lat = req.body.lat;
-	var lon = req.body.lon;
-};
+// module.exports.studentCheckIn = (req, res) => {
+// 	var firstname = req.body.firstname;
+// 	var lastname = req.body.lastname;
+// 	var email = req.body.email;
+// 	var phone = req.body.phone;
+// 	var studentID = req.body.studentID;
+// 	var safe = req.body.studentsafe;
+// 	var lat = req.body.lat;
+// 	var lng = req.body.lng;
+// };
 
 /*
 const sendSMSConfirmation = (phoneNumber) => {
