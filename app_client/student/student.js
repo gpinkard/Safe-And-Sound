@@ -3,11 +3,13 @@ const app = express();
 const mysql = require('mysql');
 const fs  = require('fs');
 
+/*
 const twilio = require('twilio');
 const twilioAccountSid = '123'; // secure these on server end later
 const twilioAuthToken = 'abc';
 const twilioNumber = '+1234567890';
 const client = new twilio(twilioAccountSid, twilioAuthToken);
+*/
 
 const database = require('../../app_db/db.js');
 
@@ -38,6 +40,7 @@ module.exports.studentCheckIn = (req, res) => {
 	var lon = req.body.lon;
 };
 
+/*
 const sendSMSConfirmation = (phoneNumber) => {
 	client.messages.create({
 		body: 'Please confirm you are safe at https://Safe-And-Sound/studentCheckInConfirm (required).',
@@ -45,3 +48,4 @@ const sendSMSConfirmation = (phoneNumber) => {
 		from: twilioNumber
 	});
 };
+*/

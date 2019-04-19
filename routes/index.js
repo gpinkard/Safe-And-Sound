@@ -15,7 +15,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
+	function(username, password, done) {
 		if(username != user.username){
 			return done(null, false, {message: 'Incorrect username.' });
 		}
@@ -23,11 +23,11 @@ passport.use(new LocalStrategy(
 			return done(null, false, {message: 'Incorrect password.' });
 		}
 		return done(null, user);
-  }
+	}
 ));
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user.username);
+	cb(null, user.username);
 });
 
 passport.deserializeUser(function(username, cb) {
@@ -47,7 +47,7 @@ router.get('/securityLogin', (req, res) => {
 });
 
 router.post('/securityLogin', passport.authenticate('local', { successRedirect: '/security',
- failureRedirect: '/securityLogin'})
+	failureRedirect: '/securityLogin'})
 );
 
 router.get('/security', (req, res) => {

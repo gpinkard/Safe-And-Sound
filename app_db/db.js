@@ -24,28 +24,28 @@ conn.connect( (err) => {
 
 /*
 	A function to select a table.
-	*/
+*/
 exports.selectQuery = (table) => {
 	conn.query("SELECT * FROM " + table);
 };
 
 /*
 	A function to insert into the student table.
-	*/
+*/
 exports.studentQuery = (firstname, lastname, email, phone) => {
 	conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
 };
 
 /*
 	A function to clear all values from the given table
-	*/
+*/
 exports.deleteTable = (table) => {
 	conn.query("DELETE FROM " + table);
 };
 
 /*
 	A function to output a .csv file
-	*/
+*/
 exports.exportTable = (path) => {
 	//conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum order by lName', (err, result, fields) => {
 	conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
