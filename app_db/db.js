@@ -3,7 +3,6 @@ const fs  = require('fs');
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
 const parser = require('json2csv').Parser;
-const path = require('path');
 
 
 const conn = mysql.createConnection({
@@ -41,7 +40,8 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 	A fuction to insert into the checkIn table.
 */
 exports.checkInQuery = (lat, lng, phone) => {
-	conn.query("REPLACE INTO CheckIn VALUES ('makeNumericDateString()', '"+lat+"', '"+lng+"', '"+phone+"')");
+	var time = makeNumericDateString();
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"')");
 };
 
 /*
@@ -92,7 +92,8 @@ const makeNumericDateString = () => {
 	let year = date.getFullYear();
 	let hour = date.getHours();
 	let minute = date.getMinutes();
-	return '' + month + '-' + day + '-' + year + '_' + hour + '.' + minute;
+	let seconds = date.getSeconds();
+	return '' + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
 };
 
 //console.log('exporting table...');
