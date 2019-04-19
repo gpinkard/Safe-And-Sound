@@ -41,7 +41,7 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 	A fuction to insert into the checkIn table.
 */
 exports.checkInQuery = (lat, lng, phone) => {
-	conn.query("INSERT INTO CheckIn VALUES ('"+makeNumericDateString()+"', '"+lat+"', '"+lng+"', '"+phone+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('makeNumericDateString()', '"+lat+"', '"+lng+"', '"+phone+"')");
 };
 
 /*
