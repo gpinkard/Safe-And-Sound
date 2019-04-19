@@ -88,5 +88,5 @@ const makeNumericDateString = () => {
 	return '' + month + '-' + day + '-' + year + '_' + hour + '.' + minute;
 };
 
-console.log('exporting table...');
-exports.exportTable();
+//console.log('exporting table...');
+//exports.exportTable();
