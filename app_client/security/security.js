@@ -25,12 +25,15 @@ module.exports.clearDatabase = (req, res) => {
 A back end function to export the database.
 */
 module.exports.securityOnlyButtons = (req, res) => {
+	console.log('made it here!!!');
 	if(req.body.secButtons === "true"){
-		var d = new Date();
-		var time = d.getTime();
-		console.log("Database exported: " + time);
-		database.exportTable('../../app_db/SecurityReports');
+		console.log('EXPORT TABLE CALLED');
+		//database.exportTable('../../app_db/SecurityReports');
+		database.exportTable('~/Desktop');
 		res.render('securityOnly');
 
-	} else res.render('securityOnly');
+	} else {
+		console.log('secButton === FALSE');
+		res.render('securityOnly');
+	}
 };

@@ -75,6 +75,7 @@ router.get('/securityLogin', (req, res) => {
 });
 
 router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
+	//console.log(path.join(__dirname + '/../views/se'))
 	res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
 });
 
