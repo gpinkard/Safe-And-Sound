@@ -3,12 +3,13 @@ html(lang='en')
   head
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    h1
-      | Safe and Sound
+    h1 Safe and Sound
     br
     form(method='post')
-      | Enter #[strong CLEARDB] to confirm you would like to clear the database.
+      | Enter
+      strong CLEARDB
+      |  to confirm you would like to clear the database.
       br
-      input(type="text", name="dbClear", required='')
+      input(type='text', name='dbClear', required='')
       br
       input(type='submit', value='Clear')
