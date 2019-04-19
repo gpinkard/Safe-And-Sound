@@ -25,7 +25,7 @@ module.exports.clearDatabase = (req, res) => {
 A back end function to export the database.
 */
 module.exports.securityOnlyButtons = (req, res) => {
-	if(req.body.secButtons == "true"){
+	if(req.body.secButtons === "true"){
 		var d = new Date();
 		var time = d.getTime();
 		console.log("Database exported: " + time);
