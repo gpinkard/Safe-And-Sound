@@ -13,6 +13,11 @@
         background-color: rgb(81, 0, 0);
         color: white;
       }
+      input {
+        text-align: center;
+        padding: 5px 5px;
+        margin: 5px 0px;
+      }
       input[type=submit] {
         background-color: #4CAF50;
         font-size: 18px;
@@ -33,7 +38,7 @@
     <h1>Safe and Sound</h1>
   </div>
   <div class="container">
-    <div class="jumbotron">
+    <div class="jumbotron-lg-3 jumbotron-md-3 jumbotron-sm-6 jumbotron-xs-12">
       <h3>
         Please fill out the following information
         to mark yourself safe during an emergency.
@@ -44,10 +49,28 @@
     <input type="text" name="firstname" placeholder="Grizz" required=""><br><br>Last name:<br>
     <input type="text" name="lastname" placeholder="The Bear" required=""><br><br>Puget Sound Email:<br>
     <input type="text" name="email" value="@pugetsound.edu" required=""><br><br>Contact info (phone number):<br>
-    <input type="text" name="phone" placeholder="2538793311" required=""><br><br><br>
+    <input type="text" name="phone" placeholder="2538793311" required=""><br><br>
+    <input hidden type="text" name="lat" id="lat" value="0.0000000"><br>
+    <input hidden type="text" name="lon" id="lon" value="0.0000000"><br>
     <input type="submit" value="Safe">
   </form>
   <div id="login"><a class="btn btn-link btn-lg" href="/securityLogin" role="link">Security Login</a></div>
+  <script>
+    const getLoc = () => {
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getLatLon);
+      } else {
+        console.log('geolocation not supported'); // add dummy vaues here
+      }
+    };
+    const getLatLon = (position) => {
+      //console.log('lat: ' + position.coords.latitude);
+      //console.log('lon: ' + position.coords.longitude);
+      document.getElementById("lat").value = position.coords.latitude;
+      document.getElementById("lon").value = position.coords.longitude;
+    }
+    getLoc();
+  </script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>

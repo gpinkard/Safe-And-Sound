@@ -5,34 +5,42 @@ html(lang='en')
     meta(name='viewport', content='width = device-width, initial-scale=1')
     link(rel='stylesheet', type='text/css', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
     style.
+      body {
+        text-align: center;
+      }
       .jumbotron {
-      background-color: lightgray;
+        background-color: lightgray;
       }
       .page-header {
-      background-color: rgb(81, 0, 0);
-      color: white;
+        background-color: rgb(81, 0, 0);
+        color: white;
+      }
+      input {
+        padding: 5px 5px;
+        margin: 5px 0px;
       }
       input[type=submit] {
-      background-color: #4CAF50;
-      font-size: 18px;
-      padding: 16px 32px;
-      border-radius: 8px;
-      color: #ffffff;
+        background-color: #4CAF50;
+        font-size: 18px;
+        padding: 16px 32px;
+        border-radius: 8px;
+        color: #ffffff;
       }
       #login {
-      position: fixed;
-      bottom: 0;
-      color: #808080;
+        position: fixed;
+        bottom: 0;
+        color: #808080;
       }
   body
     .page-header
-      img(src='../UPS.png', alt='Puget Sound Logo')
+      img(src='./UPS.png', alt='Puget Sound Logo')
       h1 Safe and Sound
-    .container
-      .jumbotron
-        h3
-          | Please fill out the following information
-          | to mark yourself safe during an emergency.
+    .center-block
+      .col-lg-4.col-md-4.col-sm-6.col-xs-12
+        .jumbotron
+          h4
+            | Please fill out the following information
+            | to mark yourself safe during an emergency.
     br
     form(method='post')
       | First name:
