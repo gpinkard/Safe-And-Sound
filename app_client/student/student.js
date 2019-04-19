@@ -27,10 +27,8 @@ module.exports.initStudentData = (req, res) => {
 	// var d = new Date();
 	// var time = d.getTime();
 	//var studentID = req.body.studentID;
-	database.studentQuery(firstname, lastname, email, phone, time);
-	console.log("1");
+	database.studentQuery(firstname, lastname, email, phone);
 	database.checkInQuery(lat, lng, phone);
-	console.log("2");
 	res.render('confirmed');
 };
 
