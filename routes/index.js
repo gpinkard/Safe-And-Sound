@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
+var path = require('path');
 
 const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
@@ -64,22 +65,22 @@ passport.deserializeUser(function(username, cb) {
 });
 
 router.get('/', (req, res) => {
-	res.render('studentFacing');
+	res.sendFile(path.join(__dirname + '/../views/studentFacing.html'));
 });
 
 router.post('/', ctrlStudent.initStudentData);
 
 router.get('/securityLogin', (req, res) => {
-	res.render('securityLogin');
+	res.sendFile(path.join(__dirname + '/../views/securityLogin.html'));
 });
 
 router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
-	res.render('securityOnly');
+	res.sendFile(path.join(__dirname + '/../views/security.html'));
 });
 
 router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
-		res.render('securityOnly');
+		res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
 	} else {
 		res.redirect('/securityLogin');
 	}
@@ -89,7 +90,7 @@ router.post('/security', ctrlSecurity.securityOnlyButtons);
 
 router.get('/clearDatabase', (req, res) => {
 	if(req.isAuthenticated()) {
-		res.render('clearDatabase');
+		res.sendFile(path.join(__dirname + '/../views/clearDatabase.html'));
 	} else {
 		res.redirect('/securityLogin');
 	}
@@ -99,7 +100,7 @@ router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
 router.get('/deleteConfirm', (req, res) => {
 	if(req.isAuthenticated()) {
-		res.render('deleteConfirm');
+		res.sendFile(path.join(__dirname + '/../views/deleteConfirm.html'));
 	} else {
 		res.redirect('/securityLogin');
 	}
