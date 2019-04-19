@@ -58,11 +58,7 @@
     <input type="text" name="email" value="@pugetsound.edu" required=""><br><br>Contact info (phone number):<br>
     <input type="text" name="phone" placeholder="2538793311" required="">
     <input hidden type="text" name="lat" id="lat" value="0.0000000"><br>
-<<<<<<< HEAD
-    <input hidden type="text" name="lon" id="lon" value="0.0000000"><br><br><br><br>
-=======
     <input hidden type="text" name="lng" id="lng" value="0.0000000"><br>
->>>>>>> 1ef43a02e5f3d8038b0e9d599f9e674e8ed2f2cf
     <input type="submit" value="Safe">
   </form>
   <div id="login"><a class="btn btn-link btn-lg" href="/securityLogin" role="link">Security Login</a></div>
@@ -78,7 +74,7 @@
       //console.log('lat: ' + position.coords.latitude);
       //console.log('lng: ' + position.coords.lnggitude);
       document.getElementById("lat").value = position.coords.latitude;
-      document.getElementById("lng").value = position.coords.lnggitude;
+      document.getElementById("lng").value = position.coords.longitude;
     }
     getLoc();
   </script>
