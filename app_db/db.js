@@ -1,8 +1,10 @@
+
 const mysql = require('mysql');
 const fs  = require('fs');
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
 const parser = require('json2csv').Parser;
+const path = require('path');
 
 
 const conn = mysql.createConnection({
@@ -53,7 +55,7 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
-exports.exportTable = (path) => {
+exports.exportTable = () => {
 	//conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum order by lName', (err, result, fields) => {
 	conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
@@ -77,10 +79,10 @@ exports.exportTable = (path) => {
 		}
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
-		fs.writeFile(path + '/' + now + '.csv', data, (err) => {
-			if(err) throw err;
-			console.log('csv file exported...');
+		fs.writeFile(path.join(__dirname, 'reports/' + now + '.csv'), data, (err) => {
+			if(err) console.log(err);
 		});
+		console.log('data exported to csv...');
 	});
 };
 
@@ -89,7 +91,10 @@ const makeNumericDateString = () => {
 	let day = date.getDate();
 	let month = date.getMonth()+1;
 	let year = date.getFullYear();
-	let hour = date.getHour();
-	let minute = date.getMinute();
+	let hour = date.getHours();
+	let minute = date.getMinutes();
 	return '' + month + '-' + day + '-' + year + '_' + hour + '.' + minute;
 };
+
+//console.log('exporting table...');
+//exports.exportTable();
