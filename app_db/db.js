@@ -3,7 +3,6 @@ const fs  = require('fs');
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
 const parser = require('json2csv').Parser;
-const path = require('path');
 
 
 const conn = mysql.createConnection({
@@ -38,6 +37,13 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 };
 
 /*
+	A fuction to insert into the checkIn table.
+*/
+exports.checkInQuery = (lat, lng, phone) => {
+	conn.query("REPLACE INTO CheckIn VALUES ('makeNumericDateString()', '"+lat+"', '"+lng+"', '"+phone+"')");
+};
+
+/*
 	A function to clear all values from the given table
 */
 exports.deleteTable = (table) => {
@@ -47,7 +53,7 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
-exports.exportTable = () => {
+exports.exportTable = (path) => {
 	//conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum order by lName', (err, result, fields) => {
 	conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
@@ -71,10 +77,10 @@ exports.exportTable = () => {
 		}
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
-		fs.writeFile(path.join(__dirname, 'reports/' + now + '.csv'), data, (err) => {
-			if(err) console.log(err);
+		fs.writeFile(path + '/' + now + '.csv', data, (err) => {
+			if(err) throw err;
+			console.log('csv file exported...');
 		});
-		console.log('data exported to csv...');
 	});
 };
 
@@ -83,10 +89,7 @@ const makeNumericDateString = () => {
 	let day = date.getDate();
 	let month = date.getMonth()+1;
 	let year = date.getFullYear();
-	let hour = date.getHours();
-	let minute = date.getMinutes();
+	let hour = date.getHour();
+	let minute = date.getMinute();
 	return '' + month + '-' + day + '-' + year + '_' + hour + '.' + minute;
 };
-
-//console.log('exporting table...');
-//exports.exportTable();
