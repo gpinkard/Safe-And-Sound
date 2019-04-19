@@ -1,4 +1,3 @@
-
 const mysql = require('mysql');
 const fs  = require('fs');
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
