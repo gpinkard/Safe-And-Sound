@@ -33,7 +33,7 @@ exports.selectQuery = (table) => {
 	A function to insert into the student table.
 */
 exports.studentQuery = (firstname, lastname, email, phone) => {
-	conn.query("INSERT IGNORE INTO Student VALUES ('"+email+"', '"+firstname+"', '"+lastname+"', '"+phone+"')");
+	conn.query("INSERT IGNORE INTO Student VALUES ('"+firstname+"', '"+lastname+"', '"+phone+"', '"+email+"')");
 };
 
 /*
