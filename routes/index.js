@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var app = express();
-var path = require('path');
+const express = require('express');
+const router = express.Router();
+const app = express();
+const path = require('path');
 
 const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
@@ -10,22 +10,26 @@ const ctrlStudent = require('../app_client/student/student');
 const ctrlSecurity = require('../app_client/security/security');
 
 const fs  = require('fs');
-const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
-const arrayStr = JSON.parse(array);
+//const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
+//const arrayStr = JSON.parse(array);
+let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
+let userData = JSON.parse(userDataJSON);
 
+/*
 var user = {
 	username: 'security',
 	passwordHash: '',
 	id: 1
 };
 
-bcrypt.hash(arrayStr.password, 10, function(err, hash) {
-	if(err){
+bcrypt.hash(arrayStr.password, 10, (err, hash) => {
+	if(err) {
 		return err;
 	} else {
-		user.passwordHash = hash;
+		user.password = hash;
 	}
 });
+*/
 
 router.use(session({
 	secret: 'keyboard cat',
@@ -37,12 +41,23 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
+// TODO move security credentials from server to db...
 passport.use(new LocalStrategy(
 	(username, password, done) => {
-		if(username !== user.username){
-			return done(null, false, {message: 'Incorrect username' });
+		let userNameStr, passwordStr = '';
+		let user = null;
+		for(let i = 0; i < userData.length; i++) {
+			if(userData[i].username === username) {
+				userNameStr = username;
+				passwordStr = userData[i].password;
+				user = userData[i];
+				break;
+			}
 		}
-		bcrypt.compare(password, user.passwordHash, (err, isValid) => {
+		if(userNameStr === '') {
+			return done(null, false, {message: 'User ' + username + ' not found'});
+		}
+		bcrypt.compare(password, passwordStr, (err, isValid) => {
 			if (err) {
 				return done(err);
 			}
