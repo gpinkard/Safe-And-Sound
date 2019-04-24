@@ -4,7 +4,7 @@ const app = express();
 const mysql = require('mysql');
 const fs  = require("fs");
 
-const database = require('../../app_db/db.js');
+const db = require('../../app_db/db.js');
 
 /**
 A back end function to clear the database.
@@ -14,7 +14,7 @@ module.exports.clearDatabase = (req, res) => {
 		var d = new Date();
 		var time = d.getTime();
 		console.log("Database cleared: " + time);
-		database.deleteTable("Student");
+		db.deleteTable("Student");
 		res.render('deleteConfirm');
 	} else{
 		res.render('clearDatabase');
@@ -29,11 +29,20 @@ module.exports.securityOnlyButtons = (req, res) => {
 	if(req.body.secButtons === "true"){
 		console.log('EXPORT TABLE CALLED');
 		//database.exportTable('../../app_db/SecurityReports');
-		database.exportTable('~/Desktop');
+		db.exportTable('~/Desktop');
 		res.render('securityOnly');
 
 	} else {
 		console.log('secButton === FALSE');
 		res.render('securityOnly');
+	}
+};
+
+module.exports.securityButtonController = (req, res) => {
+	console.log('req.body.secButtons');
+	//console.log(req.body)
+	if(req.body.secButtons === "true") {
+		db.exportTable('./app_db/reports');
+		res.sendFile(path.join(__dirname + '../../views/securityOnly.html'));
 	}
 };
