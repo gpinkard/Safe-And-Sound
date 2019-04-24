@@ -41,13 +41,16 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
+// TODO move security credentials from server to db...
 passport.use(new LocalStrategy(
 	(username, password, done) => {
 		let userNameStr, passwordStr = '';
+		let user = null;
 		for(let i = 0; i < userData.length; i++) {
 			if(userData[i].username === username) {
 				userNameStr = username;
 				passwordStr = userData[i].password;
+				user = userData[i];
 				break;
 			}
 		}
@@ -59,10 +62,8 @@ passport.use(new LocalStrategy(
 				return done(err);
 			}
 			if (!isValid) {
-				console.log('PASSWORD IS NOT VALID');
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
-				console.log('PASSWORD IS VALID');
 				return done(null, user);
 			}
 		});
@@ -90,7 +91,6 @@ router.get('/securityLogin', (req, res) => {
 });
 
 router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
-	//console.log(path.join(__dirname + '/../views/se'))
 	res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
 });
 

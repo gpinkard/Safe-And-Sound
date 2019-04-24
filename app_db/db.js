@@ -59,29 +59,19 @@ exports.exportTable = () => {
 	conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
 		if(err) throw err;
-		console.log('results:');
-		console.log(result);
-
 		const jsonStudents = JSON.parse(JSON.stringify(result));
-
-		console.log('jsonStudents: ');
-		console.log(jsonStudents);
-
 		//const csvFields = ['lName', 'fName', 'phoneNum', 'email', 'lat', 'lng', 'time'];
+
 		const csvFields = ['lName, fName, phoneNum, email'];
 		const json2CSVParser = new parser({csvFields});
 		let data = '';
 		if(jsonStudents.length !== 0) {
 			data = json2CSVParser.parse(jsonStudents);
-			console.log('csv:');
-			console.log(data);
 		}
 		let now = makeNumericDateString();
-		console.log('now: ' + now);
 		fs.writeFile(path.join(__dirname, 'reports/' + now + '.csv'), data, (err) => {
 			if(err) console.log(err);
 		});
-		console.log('data exported to csv...');
 	});
 };
 
