@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bcrypt = require('bcrypt');
 
 const mysql = require('mysql');
 const fs  = require("fs");
@@ -31,9 +32,31 @@ module.exports.securityOnlyButtons = (req, res) => {
 		//database.exportTable('../../app_db/SecurityReports');
 		database.exportTable('~/Desktop');
 		res.render('securityOnly');
-
 	} else {
 		console.log('secButton === FALSE');
 		res.render('securityOnly');
 	}
+	if(req.body.changePassword === "true"){
+		var pin = Math.random()*10000;
+		console.log("pin: " + pin);
+		//send email with rng PIN
+		//add pin to database
+		res.redirect('/changePassword');
+	}
 };
+
+module.exports.changePassword = (req, res) => {
+	//access pin from Database
+	if(req.body.PIN === pin) {
+		bcrypt.hash(req.body.newPassword, 10, function(err, hash) {
+			if(err){
+				return err;
+			} else {
+				//reset password hashin database
+				//user.passwordHash = hash;
+			}
+		});
+	} else {
+		//either return that PIN is incorrect or that some error occurred
+	}
+}

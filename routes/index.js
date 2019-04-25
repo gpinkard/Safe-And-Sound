@@ -39,6 +39,7 @@ router.use(passport.session());
 passport.use(new LocalStrategy(
  (username, password, done) => {
 	  if(username !== user.username){
+			console.log("incorrect username");
 			return done(null, false, {message: 'Incorrect username' });
 		}
 		bcrypt.compare(password, user.passwordHash, (err, isValid) => {
@@ -46,8 +47,10 @@ passport.use(new LocalStrategy(
 				return done(err)
 			}
 			if (!isValid) {
+				console.log("incorrect password");
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
+				console.log("valid user");
 				return done(null, user);
 			}
 		});
@@ -55,7 +58,7 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user);
+  cb(null, user.username);
 });
 
 passport.deserializeUser(function(username, cb) {
@@ -74,16 +77,16 @@ router.get('/securityLogin', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/securityLogin.html'));
 });
 
-router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
-	//console.log(path.join(__dirname + '/../views/se'))
-	res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
+router.post('/securityLogin', passport.authenticate('local', {successRedirect: '/security', failureRedirect: '/securityLogin'}), (req, res) => {
+	return res.redirect('/security');
 });
 
 router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
+		//res.render('securityOnly');
 		res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
 	} else {
-		res.redirect('/securityLogin');
+		return res.redirect('/securityLogin');
 	}
 });
 
@@ -106,5 +109,15 @@ router.get('/deleteConfirm', (req, res) => {
 		res.redirect('/securityLogin');
 	}
 });
+
+router.get('/changePassword', (req, res) => {
+	if(req.isAuthenticated()) {
+		res.sendFile(path.join(__dirname + '/../views/changePassword.html'));
+	} else {
+		res.redirect('/securityLogin');
+	}
+});
+
+router.post('/changePassword', ctrlSecurity.changePassword);
 
 module.exports = router;
