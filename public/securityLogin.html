@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <!--link(rel='stylesheet', href='/stylesheets/style.css')-->
   <meta name="viewport" content="width = device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
@@ -15,17 +16,22 @@
         background-color: rgb(81, 0, 0);
         color: white;
       }
-      button {
+      input {
+        padding: 5px 5px;
+        margin: 5px 0px;
+      }
+      input[type=submit] {
+        background-color: #4CAF50;
         font-size: 18px;
         padding: 16px 32px;
         border-radius: 8px;
+        color: #ffffff;
       }
     </style>
 </head>
 
 <body>
-  <div class="page-header">
-    <!--img(src='./UPS.png', alt='Puget Sound Logo')-->
+  <div class="page-header"><img src="./UPS.png" alt="Puget Sound Logo">
     <h1>Safe and Sound</h1>
   </div>
   <div class="center-block">
@@ -38,11 +44,10 @@
       </div>
     </div>
   </div><br>
-  <button type="button" onclick="location='clearDatabase'">Clear Database</button><br>
-  <br>
-  <form method="post">
-    <button type="submit" name="exportCSV" onclick="value=confirm('Click confirm to have a copy of the database sent to your email.')">Export Database</button><br><br>
-    <button type="submit" name="changePassword">Change Admin Password</button><br>
+  <form method="post">Username:<br>
+    <input type="text" name="username" required=""><br><br>Password:<br>
+    <input type="password" name="password" required=""><br><br>
+    <input type="submit" value="Login">
   </form>
 </body>
 
