@@ -10,26 +10,12 @@ const ctrlStudent = require('../app_client/student/student');
 const ctrlSecurity = require('../app_client/security/security');
 
 const fs  = require('fs');
-//const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
-//const arrayStr = JSON.parse(array);
+const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
+const arrayStr = JSON.parse(array);
 let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
 let userData = JSON.parse(userDataJSON);
 
-/*
-var user = {
-	username: 'security',
-	passwordHash: '',
-	id: 1
-};
-
-bcrypt.hash(arrayStr.password, 10, (err, hash) => {
-	if(err) {
-		return err;
-	} else {
-		user.password = hash;
-	}
-});
-*/
+let user = null; // this represents the logged in user
 
 router.use(session({
 	secret: 'keyboard cat',
@@ -45,25 +31,23 @@ router.use(passport.session());
 passport.use(new LocalStrategy(
 	(username, password, done) => {
 		let userNameStr, passwordStr = '';
-		let user = null;
 		for(let i = 0; i < userData.length; i++) {
 			if(userData[i].username === username) {
 				userNameStr = username;
-				passwordStr = userData[i].password;
+				passwordStr = userData[i].passwordHash;
 				user = userData[i];
 				break;
 			}
 		}
 		if(userNameStr === '') {
-			return done(null, false, {message: 'User ' + username + ' not found'});
+			return done(null, false, {message: 'user ' + username + ' not found'});
 		}
 		bcrypt.compare(password, passwordStr, (err, isValid) => {
-			if (err) {
-				return done(err);
-			}
-			if (!isValid) {
+			if(err) throw err;
+			if(!isValid) {
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
+				console.log('user ' + user.username + ' is now authenticated');
 				return done(null, user);
 			}
 		});
@@ -71,7 +55,7 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, cb) {
-	cb(null, user);
+	cb(null, user.username);
 });
 
 passport.deserializeUser(function(username, cb) {
@@ -87,18 +71,12 @@ router.get('/', (req, res) => {
 router.post('/', ctrlStudent.initStudentData);
 
 router.get('/securityLogin', (req, res) => {
-	console.log('get securityLogin');
 	res.sendFile(path.join(__dirname + '/../views/securityLogin.html'));
 });
 
-/*
 router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
-	res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
-	//res.redirect('/security');
+	res.redirect('/security');
 });
-*/
-
-router.post('/securityLogin', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/securityLogin', failureFlash: "invalid username or password"}));
 
 router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
@@ -108,17 +86,7 @@ router.get('/security', (req, res) => {
 	}
 });
 
-router.post('/security', ctrlSecurity.securityOnlyButtons);
-
-router.get('/securityTest', (req, res) => {
-	res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
-});
-
-router.post('/securityTest', (req, res) => {
-	console.log('made it to index /security');
-	ctrlSecurity.securityButtonController(req, res);
-	console.log('securityButtonController() returned...');
-});
+router.post('/security', ctrlSecurity.securityButtonController);
 
 router.get('/clearDatabase', (req, res) => {
 	if(req.isAuthenticated()) {

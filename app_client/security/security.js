@@ -21,28 +21,14 @@ module.exports.clearDatabase = (req, res) => {
 	}
 };
 
-/**
-A back end function to export the database.
-*/
-module.exports.securityOnlyButtons = (req, res) => {
-	console.log('made it here!!!');
-	if(req.body.secButtons === "true"){
-		console.log('EXPORT TABLE CALLED');
-		//database.exportTable('../../app_db/SecurityReports');
-		db.exportTable('~/Desktop');
-		res.render('securityOnly');
-
-	} else {
-		console.log('secButton === FALSE');
-		res.render('securityOnly');
-	}
-};
-
 module.exports.securityButtonController = (req, res) => {
-	console.log('req.body.secButtons');
-	//console.log(req.body)
-	if(req.body.secButtons === "true") {
+	if(req.body.exportCSV === "true") {
 		db.exportTable('./app_db/reports');
-		res.sendFile(path.join(__dirname + '../../views/securityOnly.html'));
+	} else if(req.body.changePassword === "true") {
+		// TODO generate random pin
+		// TODO add pin to db admin table (keeps admin login info)
+		// TODO send email with with
+		res.redirect('/changePassword');
 	}
+	res.redirect('/security');
 };
