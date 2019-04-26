@@ -10,11 +10,14 @@ const ctrlStudent = require('../app_client/student/student');
 const ctrlSecurity = require('../app_client/security/security');
 
 const fs  = require('fs');
-const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
-const arrayStr = JSON.parse(array);
-//Uncoment later
-// let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
-// let userData = JSON.parse(userDataJSON);
+//const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
+//const arrayStr = JSON.parse(array);
+let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
+let userData = JSON.parse(userDataJSON);
+
+console.log('userdata:');
+console.log(userData);
+
 
 let user = null; // this represents the logged in user
 
@@ -33,9 +36,11 @@ passport.use(new LocalStrategy(
 	(username, password, done) => {
 		let userNameStr, passwordStr = '';
 		for(let i = 0; i < userData.length; i++) {
+			console.log('i: ' + i);
 			if(userData[i].username === username) {
 				userNameStr = username;
 				passwordStr = userData[i].passwordHash;
+				console.log('passwordStr: ' + passwordStr);
 				user = userData[i];
 				break;
 			}
@@ -46,6 +51,7 @@ passport.use(new LocalStrategy(
 		bcrypt.compare(password, passwordStr, (err, isValid) => {
 			if(err) throw err;
 			if(!isValid) {
+				console.log('incorrect password...');
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
 				console.log('user ' + user.username + ' is now authenticated');
@@ -71,9 +77,14 @@ router.get('/', (req, res) => {
 
 router.post('/', ctrlStudent.initStudentData);
 
+router.get('/verify', (req, res) => {
+	res.sendFile(path.join(__dirname + '/../views/studentVerify.html'));
+});
+
 router.get('/securityLogin', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/securityLogin.html'));
 });
+
 
 router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
 	res.redirect('/security');
@@ -83,7 +94,7 @@ router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
 	} else {
-		res.redirect('/securityLogin');
+		return res.redirect('/securityLogin');
 	}
 });
 
@@ -107,8 +118,14 @@ router.get('/deleteConfirm', (req, res) => {
 	}
 });
 
-router.get('/confirmed', (req, res) => {
-	res.sendFile(path.join(__dirname + '/../views/confirmed.html'));
+router.get('/changePassword', (req, res) => {
+	if(req.isAuthenticated()) {
+		res.sendFile(path.join(__dirname + '/../views/changePassword.html'));
+	} else {
+		res.redirect('/securityLogin');
+	}
 });
+
+router.post('/changePassword', ctrlSecurity.changePassword);
 
 module.exports = router;

@@ -17,32 +17,33 @@
       }
       button {
         font-size: 18px;
-        padding: 16px 32px;
+        padding: 10px 24px;
         border-radius: 8px;
       }
+      .responsive {
+        max-width: 150px;
+        height: auto;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
   <div class="page-header">
-    <!--img(src='./UPS.png', alt='Puget Sound Logo')-->
+    <img src="./UPS.png" alt="Puget Sound Logo" class="responsive">
     <h1>Safe and Sound</h1>
   </div>
   <div class="center-block">
     <div class="container col-lg-4 col-md-4 col-sm-6 col-xs-12 col-lg-offset-4 col-md-offset-4 col-sm-offset-3">
       <div class="jumbotron">
-        <h4>
-          Welcome to the Security Login Page!
-          Please enter your credentials to continue.
-        </h4>
+        <h4>Welcome to the Security Portal!</h4>
+        <p>Please choose what you would like to do.</p>
       </div>
     </div>
   </div><br>
-  <button type="button" onclick="location='clearDatabase'">Clear Database</button><br>
-  <br>
+  <button type="button" onclick="location='clearDatabase'">Clear Database</button><br><br>
   <form method="post">
     <button type="submit" name="exportCSV" onclick="value=confirm('Click confirm to have a copy of the database sent to your email.')">Export Database</button><br><br>
-    <button type="submit" name="changePassword">Change Admin Password</button><br>
+    <button type="submit" name="changePassword" onclick="value=confirm('Click confirm to have a PIN sent to your email to change your password')">Change Admin Password</button><br>
   </form>
 </body>
 
