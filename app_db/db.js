@@ -58,13 +58,13 @@ exports.deleteTable = (table) => {
 */
 exports.exportTable = (exportPath) => {
 	//conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum order by lName', (err, result, fields) => {
-	conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
+	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err,  result, fields) => {
 
 		if(err) throw err;
 		const jsonStudents = JSON.parse(JSON.stringify(result));
 		//const csvFields = ['lName', 'fName', 'phoneNum', 'email', 'lat', 'lng', 'time'];
 
-		const csvFields = ['lName, fName, phoneNum, email'];
+		const csvFields = ['lName, fName, timeOf, phoneNum, email, lat, lng'];
 		const json2CSVParser = new parser({csvFields});
 		let data = '';
 		if(jsonStudents.length !== 0) {
@@ -72,6 +72,7 @@ exports.exportTable = (exportPath) => {
 		}
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
+		console.log(data);
 		fs.writeFile(path.join(exportPath, '/' + now + '.csv'), data, (err) => {
 			if(err) console.log(err);
 		});
