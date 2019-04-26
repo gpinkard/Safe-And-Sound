@@ -128,7 +128,7 @@ exports.exportTable = (exportPath) => {
 		const jsonStudents = JSON.parse(JSON.stringify(result));
 		//const csvFields = ['lName', 'fName', 'phoneNum', 'email', 'lat', 'lng', 'time'];
 
-		const csvFields = ['lName, fName, phoneNum, email'];
+		const csvFields = ['lName, fName, timeOf, phoneNum, email, lat, lng'];
 		const json2CSVParser = new parser({csvFields});
 		let data = '';
 		if(jsonStudents.length !== 0) {
@@ -136,6 +136,7 @@ exports.exportTable = (exportPath) => {
 		}
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
+		console.log(data);
 		fs.writeFile(path.join(exportPath, '/' + now + '.csv'), data, (err) => {
 			if(err) console.log(err);
 		});
