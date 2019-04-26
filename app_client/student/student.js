@@ -32,7 +32,7 @@ module.exports.initStudentData = (req, res) => {
 
 	database.studentQuery(firstname, lastname, email, phone);
 	database.checkInQuery(lat, lng, phone);
-	res.redirect('confirmed');
+	res.redirect('/confirm');
 };
 
 // module.exports.studentCheckIn = (req, res) => {

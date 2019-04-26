@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const fs  = require('fs');
 const path = require('path');
 const parser = require('json2csv').Parser;
+const bcrypt = require('bcrypt');
 
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
@@ -23,6 +24,69 @@ conn.connect( (err) => {
 		console.log('now connected to database ' + arrayStr.database);
 	}
 });
+
+exports.setPIN = (pin, username) => {
+	username = ' "' + username + '"';
+	conn.query("UPDATE Admin SET pin = " + pin + " WHERE username=" + username);
+};
+
+exports.getPIN = (username) => {
+	username = ' "' + username + '"';
+	console.log('username:');
+	console.log(username);
+	conn.query("SELECT pin FROM Admin WHERE username=" + username, (err, result, fields) => {
+		if(err) throw err;
+		const jsonSecurity = JSON.parse(JSON.stringify(result));
+		console.log('pin(db): ');
+		console.log(jsonSecurity[0].pin);
+		return jsonSecurity[0].pin;
+		});
+};
+
+exports.loginHelper = ((username, password, done) => {
+	username = ' "' + username + '"';
+	conn.query("SELECT * FROM Admin WHERE username =" + username, (err, result, fields) => {
+		if(err) throw err;
+		if(result.length === 0) return done(null, false, {message: 'user ' + username + ' not found'});
+		const jsonSecurity = JSON.parse(JSON.stringify(result));
+		let passwordStr = '';
+		console.log(jsonSecurity[0]);
+		if(jsonSecurity.length !== 0) {
+			passwordStr = jsonSecurity[0].passwordHash;
+		}
+		bcrypt.compare(password, passwordStr, (err, isValid) => {
+			if(err) throw err;
+			if(!isValid) {
+				console.log('incorrect password...');
+				return done(null, false, {message: 'Incorrect password'});
+			} else {
+				console.log('user ' + username + ' is now authenticated');
+				let tempUser = {};
+				tempUser.username = jsonSecurity[0].username;
+				tempUser.password = jsonSecurity[0].passwordHash;
+				tempUser.id = jsonSecurity[0].idAdmin;
+				console.log('tempUser:');
+				console.log(tempUser);
+				return done(null, tempUser);
+			}
+		});
+	});
+});
+
+exports.deserialize = (username, cb) => {
+	username = ' "' + username + '"';
+	conn.query("SELECT * FROM Admin WHERE username =" + username, (err, result, fields) => {
+		if(err) throw err;
+		if(result.length === 0) return done(null, false, {message: 'user ' + username + ' not found'}); //throw error!!
+		const jsonSecurity = JSON.parse(JSON.stringify(result));
+		let tempUser = {};
+		tempUser.username = jsonSecurity[0].username;
+		tempUser.password = jsonSecurity[0].passwordHash;
+		tempUser.id = jsonSecurity[0].idAdmin;
+		return cb(null, tempUser);
+		}
+	)
+};
 
 /*
 	A function to select a table.
@@ -57,8 +121,8 @@ exports.deleteTable = (table) => {
 	A function to output a .csv file
 */
 exports.exportTable = (exportPath) => {
-	//conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum order by lName', (err, result, fields) => {
-	conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
+	conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY timeOf DESC', (err, result, fields) => {
+	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
 		if(err) throw err;
 		const jsonStudents = JSON.parse(JSON.stringify(result));
