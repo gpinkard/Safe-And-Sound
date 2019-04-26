@@ -12,8 +12,9 @@ const ctrlSecurity = require('../app_client/security/security');
 const fs  = require('fs');
 const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
 const arrayStr = JSON.parse(array);
-let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
-let userData = JSON.parse(userDataJSON);
+//Uncoment later
+// let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
+// let userData = JSON.parse(userDataJSON);
 
 let user = null; // this represents the logged in user
 
@@ -104,6 +105,10 @@ router.get('/deleteConfirm', (req, res) => {
 	} else {
 		res.redirect('/securityLogin');
 	}
+});
+
+router.get('/confirmed', (req, res) => {
+	res.sendFile(path.join(__dirname + '/../views/confirmed.html'));
 });
 
 module.exports = router;

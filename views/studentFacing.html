@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <script type="text/javascript" src="../scripts/studentFacingScripts.js"> </script>
   <!-- link(rel='stylesheet', href='/stylesheets/style.css')-->
   <meta name="viewport" content="width = device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -41,7 +42,7 @@
 </head>
 
 <body>
-  <div class="page-header"><img src="./UPS.png" alt="Puget Sound Logo">
+  <div class="page-header"><img src="/UPS.png" alt="Puget Sound Logo">
     <h1>Safe and Sound</h1>
   </div>
   <div class="container col-lg-4 col-md-4 col-sm-6 col-xs-12 col-lg-offset-4 col-md-offset-4 col-sm-offset-3">
@@ -52,11 +53,16 @@
       </h4>
     </div>
   </div><br>
-  <form method="post">First name:<br>
-    <input type="text" name="firstname" placeholder="Grizz" required=""><br><br>Last name:<br>
-    <input type="text" name="lastname" placeholder="The Bear" required=""><br><br>Puget Sound Email:<br>
-    <input type="text" name="email" value="@pugetsound.edu" required=""><br><br>Contact info (phone number):<br>
-    <input type="text" name="phone" placeholder="2538793311" required="">
+  <form name="studentFF" method="post" onsubmit="return validateForm()"> First name:<br>
+    <input type="text" name="firstname" placeholder="Grizz" required=""><br>
+    <br>Last name:<br>
+    <input type="text" name="lastname" placeholder="The Bear" required=""><br>
+    <br>Puget Sound Email:<br>
+    <input type="text" name="email" placeholder="grizzbear" required="">
+      <span>@pugetsound.edu</span>
+    <br>
+    <br>Contact info (10-15 digit phone number):<br>
+    <input type="text" name="phone" placeholder="(123) 456-7890" required="">
     <input hidden type="text" name="lat" id="lat" value="0.0000000"><br>
     <input hidden type="text" name="lng" id="lng" value="0.0000000"><br>
     <input type="submit" value="Safe">
