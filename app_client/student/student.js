@@ -29,7 +29,7 @@ module.exports.initStudentData = (req, res) => {
 	//var studentID = req.body.studentID;
 	database.studentQuery(firstname, lastname, email, phone);
 	database.checkInQuery(lat, lng, phone);
-	res.render('confirmed');
+	res.redirect('/verify');
 };
 
 // module.exports.studentCheckIn = (req, res) => {

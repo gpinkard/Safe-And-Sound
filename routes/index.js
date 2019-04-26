@@ -10,10 +10,15 @@ const ctrlStudent = require('../app_client/student/student');
 const ctrlSecurity = require('../app_client/security/security');
 
 const fs  = require('fs');
-const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
-const arrayStr = JSON.parse(array);
+//const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
+//const arrayStr = JSON.parse(array);
+const sha256 = require('sha256');
 let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
 let userData = JSON.parse(userDataJSON);
+
+console.log('userdata:');
+console.log(userData);
+
 
 let user = null; // this represents the logged in user
 
@@ -32,9 +37,11 @@ passport.use(new LocalStrategy(
 	(username, password, done) => {
 		let userNameStr, passwordStr = '';
 		for(let i = 0; i < userData.length; i++) {
+			console.log('i: ' + i);
 			if(userData[i].username === username) {
 				userNameStr = username;
 				passwordStr = userData[i].passwordHash;
+				console.log('passwordStr: ' + passwordStr);
 				user = userData[i];
 				break;
 			}
@@ -45,6 +52,7 @@ passport.use(new LocalStrategy(
 		bcrypt.compare(password, passwordStr, (err, isValid) => {
 			if(err) throw err;
 			if(!isValid) {
+				console.log('incorrect password...');
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
 				console.log('user ' + user.username + ' is now authenticated');
@@ -70,6 +78,10 @@ router.get('/', (req, res) => {
 
 router.post('/', ctrlStudent.initStudentData);
 
+router.get('/verify', (req, res) => {
+	res.sendFile(path.join(__dirname + '/../views/studentVerify.html'));
+});
+
 router.get('/securityLogin', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/securityLogin.html'));
 });
@@ -81,7 +93,6 @@ router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '
 
 router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
-		//res.render('securityOnly');
 		res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
 	} else {
 		return res.redirect('/securityLogin');
@@ -117,5 +128,13 @@ router.get('/changePassword', (req, res) => {
 });
 
 router.post('/changePassword', ctrlSecurity.changePassword);
+
+router.get('/passwordConfirm', (req, res) => {
+	if(req.isAuthenticated()) {
+		res.sendFile(path.join(__dirname + '/../views/changePasswordConfirm.html'));
+	} else {
+		res.redirect('/securityLogin');
+	}
+});
 
 module.exports = router;

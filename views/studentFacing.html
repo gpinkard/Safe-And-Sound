@@ -28,20 +28,20 @@
         border-radius: 8px;
         color: #ffffff;
       }
-      #login {
-        position: fixed;
-        bottom: 0;
-        color: #808080;
-      }
       .vertical-center {
         display: flex;
         align-items: center;
+      }
+      .responsive {
+        max-width: 150px;
+        height: auto;
       }
     </style>
 </head>
 
 <body>
-  <div class="page-header"><img src="./UPS.png" alt="Puget Sound Logo">
+  <div class="page-header">
+    <img src="./UPS.png" alt="Puget Sound Logo" class="responsive">
     <h1>Safe and Sound</h1>
   </div>
   <div class="container col-lg-4 col-md-4 col-sm-6 col-xs-12 col-lg-offset-4 col-md-offset-4 col-sm-offset-3">
@@ -61,7 +61,6 @@
     <input hidden type="text" name="lng" id="lng" value="0.0000000"><br>
     <input type="submit" value="Safe">
   </form>
-  <div id="login"><a class="btn btn-link btn-lg" href="/securityLogin" role="link">Security Login</a></div>
   <script>
     const getLoc = () => {
       if(navigator.geolocation) {
