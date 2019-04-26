@@ -20,16 +20,19 @@ module.exports.initStudentData = (req, res) => {
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
 	var email = req.body.email;
-	var phone = req.body.phone;
+	var phone = req.body.phone.replace(/\D/g, '');
 	var lat = req.body.lat;
 	var lng = req.body.lng;
-	//console.log('lat: ' + lat + ' lng: ' + lng);
-	// var d = new Date();
-	// var time = d.getTime();
-	//var studentID = req.body.studentID;
+	/**
+	Check the value of the email.
+	*/
+	if(!email.includes("@pugetsound.edu")){
+		email+= "@pugetsound.edu";
+	}
+
 	database.studentQuery(firstname, lastname, email, phone);
 	database.checkInQuery(lat, lng, phone);
-	res.redirect('/verify');
+	res.redirect('confirmed');
 };
 
 // module.exports.studentCheckIn = (req, res) => {

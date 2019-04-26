@@ -12,7 +12,6 @@ const ctrlSecurity = require('../app_client/security/security');
 const fs  = require('fs');
 //const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
 //const arrayStr = JSON.parse(array);
-const sha256 = require('sha256');
 let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
 let userData = JSON.parse(userDataJSON);
 
@@ -128,13 +127,5 @@ router.get('/changePassword', (req, res) => {
 });
 
 router.post('/changePassword', ctrlSecurity.changePassword);
-
-router.get('/passwordConfirm', (req, res) => {
-	if(req.isAuthenticated()) {
-		res.sendFile(path.join(__dirname + '/../views/changePasswordConfirm.html'));
-	} else {
-		res.redirect('/securityLogin');
-	}
-});
 
 module.exports = router;
