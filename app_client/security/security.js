@@ -6,6 +6,7 @@ const mysql = require('mysql');
 const fs  = require("fs");
 
 const db = require('../../app_db/db.js');
+const notify = require('./notify.js')
 
 /**
 A back end function to clear the database.
@@ -26,6 +27,8 @@ module.exports.clearDatabase = (req, res) => {
 module.exports.securityButtonController = (req, res) => {
 	if(req.body.exportCSV === "true") {
 		db.exportTable('./app_db/reports');
+		var fileName = './2019-4-25_20:43:5.csv';
+		notify.sendSecurityReport(fileName);
 		// TODO send email with the report
 	}
 	if(req.body.changePassword === "true") {

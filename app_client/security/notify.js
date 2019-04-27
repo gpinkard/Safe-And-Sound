@@ -2,27 +2,25 @@ const express = require('express');
 const mailer = require('nodemailer');
 const fs = require('fs');
 
-const app_email = 'gpinkard@pugetsound.edu';
+const app_email = 'ups.safeandsound@gmail.com';
 const sec_email = 'khoefflinger@gmail.com';
-const csvFilePath = './test_csv_file.csv';
+const csvFilePath = './2019-4-25_20:43:5.csv';
 const passwordFileName = 'password.txt';
 
-const pass = fs.readFileSync(passwordFileName, 'utf-8', (err, data) => {
-	if(err) throw err;
-});
+const pass = "Safe@PugetSound2019";
 
 const transporter = mailer.createTransport({
-	service: 'outlook',
+	service: 'gmail',
 	auth: {
 		user: app_email,
 		pass: pass
 	}
 });
 
-console.log('transporter:');
-console.log(transporter);
+// console.log('transporter:');
+// console.log(transporter);
 
-const sendSecurityReport = () => {
+const sendSecurityReport = (fileName) => {
 	var date = new Date();
 	var now = date.toDateString();
 
@@ -33,8 +31,8 @@ const sendSecurityReport = () => {
 		text: 'Safe And Sound security report for ' + now + ' attached.',
 		attachments: [
 			{
-				filename: 'checkin.csv',
-				path: csvFilePath
+				filename: 'checkin'+now+'.csv',
+				path: fileName
 			}
 		]
 	};
@@ -42,7 +40,10 @@ const sendSecurityReport = () => {
 	transporter.sendMail(mailOptions, (err, info) => {
 		console.log('info:');
 		console.log(info);
-		if(err) throw err;
+		if(err) {
+			console.log(err);
+			throw err;
+		}
 		else console.log(now + ': sending email to security services');
 	});
 };

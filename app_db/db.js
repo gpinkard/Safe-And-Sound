@@ -136,7 +136,8 @@ exports.exportTable = (exportPath) => {
 		}
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
-		fs.writeFile(path.join(exportPath, '/' + now + '.csv'), data, (err) => {
+		var fileName = path.join(exportPath, '/' + now + '.csv');
+		fs.writeFile(fileName, data, (err) => {
 			if(err) console.log(err);
 		});
 	});
