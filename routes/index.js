@@ -6,17 +6,17 @@ const path = require('path');
 const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const mysql = require('mysql');
+
 const ctrlStudent = require('../app_client/student/student');
 const ctrlSecurity = require('../app_client/security/security');
+const ctrlDb = require('../app_db/db');
 
 const fs  = require('fs');
 //const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
 //const arrayStr = JSON.parse(array);
 let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
 let userData = JSON.parse(userDataJSON);
-
-console.log('userdata:');
-console.log(userData);
 
 
 let user = null; // this represents the logged in user
@@ -31,45 +31,16 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
+
+
 // TODO move security credentials from server to db...
-passport.use(new LocalStrategy(
-	(username, password, done) => {
-		let userNameStr, passwordStr = '';
-		for(let i = 0; i < userData.length; i++) {
-			console.log('i: ' + i);
-			if(userData[i].username === username) {
-				userNameStr = username;
-				passwordStr = userData[i].passwordHash;
-				console.log('passwordStr: ' + passwordStr);
-				user = userData[i];
-				break;
-			}
-		}
-		if(userNameStr === '') {
-			return done(null, false, {message: 'user ' + username + ' not found'});
-		}
-		bcrypt.compare(password, passwordStr, (err, isValid) => {
-			if(err) throw err;
-			if(!isValid) {
-				console.log('incorrect password...');
-				return done(null, false, {message: 'Incorrect password'});
-			} else {
-				console.log('user ' + user.username + ' is now authenticated');
-				return done(null, user);
-			}
-		});
-	}
-));
+passport.use(new LocalStrategy(ctrlDb.loginHelper));
 
 passport.serializeUser(function(user, cb) {
 	cb(null, user.username);
 });
 
-passport.deserializeUser(function(username, cb) {
-	if(username === user.username){
-		cb(null, user);
-	}
-});
+passport.deserializeUser(ctrlDb.deserialize);
 
 router.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/studentFacing.html'));
@@ -77,7 +48,7 @@ router.get('/', (req, res) => {
 
 router.post('/', ctrlStudent.initStudentData);
 
-router.get('/verify', (req, res) => {
+router.get('/confirm', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/studentVerify.html'));
 });
 
