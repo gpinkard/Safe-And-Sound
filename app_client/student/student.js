@@ -18,23 +18,25 @@ const database = require('../../app_db/db.js');
  * This function initializes student data in the database
  */
 module.exports.initStudentData = (req, res) => {
+	
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
 	var email = req.body.email;
 	var phone = req.body.phone.replace(/\D/g, '');
+	console.log('Phone: ' + phone);
 	var lat = req.body.lat;
 	var lng = req.body.lng;
-	var confirmString = mail.generateAuthToken();
 	/**
 	Check the value of the email.
 	*/
 	if(!email.includes("@pugetsound.edu")){
 		email+= "@pugetsound.edu";
 	}
-
+	var confirmString = String(mail.generateAuthToken(email));
+	console.log('confirmString: ' + confirmString);
 	database.studentQuery(firstname, lastname, email, phone); // insert authentication token here
 	database.checkInQuery(lat, lng, phone, 0, confirmString);
-	mail.sendStudentConfirmEmail(email, confirmString);
+	mail.sendStudentConfirmEmail(email, firstname, confirmString);
 	// call email function
 	res.redirect('/confirm');
 };

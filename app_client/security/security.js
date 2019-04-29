@@ -6,7 +6,7 @@ const mysql = require('mysql');
 const fs  = require("fs");
 
 const db = require('../../app_db/db.js');
-const notify = require('./notify.js')
+const notify = require('../notify/mail.js')
 
 /**
 A back end function to clear the database.
@@ -26,8 +26,11 @@ module.exports.clearDatabase = (req, res) => {
 
 module.exports.securityButtonController = (req, res) => {
 	if(req.body.exportCSV === "true") {
-		db.exportTable('./app_db/reports');
-		var fileName = './2019-4-25_20:43:5.csv';
+		var fileName = db.exportTable('./app_db/reports');
+		console.log(fileName);
+		console.log(__dirname);
+		fileName = '../../app_db/reports/2019-4-29_11:33:4.csv';
+		console.log('before notify');
 		notify.sendSecurityReport(fileName);
 	}
 	if(req.body.changePassword === "true") {
@@ -48,13 +51,17 @@ module.exports.securityButtonController = (req, res) => {
 	res.redirect('/security');
 };
 
-generatePIN = (username, theirpin, newPassword, callback, res) => {
+async function generatePIN(username, theirpin, newPassword, callback, res){
 	console.log('getPIN: ' + db.getPIN(username));
-	var ourpin = db.getPIN(username);
+	console.log('before ourpin');
+	var ourpin = await db.getPIN(username);
+	console.log('after ourpin');
 	callback(username, ourpin, theirpin, newPassword, res);
 }
 
 change = (username, ourpin, theirpin, newPassword, res) => {
+	console.log('in change');
+	console.log(ourpin);
 	if(theirpin === ourpin) {
 		console.log('in if statement');
 		bcrypt.hash(newPassword, 10, function(err, hash) {
