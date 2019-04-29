@@ -9,7 +9,6 @@ const arrayStr = JSON.parse(array);
 
 
 const conn = mysql.createConnection({
-	// subject to change :)
 	host: arrayStr.host,
 	user: arrayStr.user,
 	password: arrayStr.password,
@@ -105,9 +104,13 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 /*
 	A fuction to insert into the checkIn table.
 */
-exports.checkInQuery = (lat, lng, phone) => {
+exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
+<<<<<<< HEAD
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
+=======
 	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
+>>>>>>> d4fa0537c1996484a3a470d594a6877ea5407052
 };
 
 /*
