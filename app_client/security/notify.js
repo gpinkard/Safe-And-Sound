@@ -3,8 +3,15 @@ const mailer = require('nodemailer');
 const fs = require('fs');
 
 const app_email = 'PugetsoundSafeApp@pugetsound.edu';
-const sec_email = 'gpinkard@pugetsound.edu';
+const sec_email = 'khoefflinger@pugetsound.edu';
 const passwordFileName = 'password.txt';
+
+var pass = '';
+
+fs.readFile(passwordFileName, (err, data) => {
+    if (err) throw err;
+  	pass = data.toString();
+})
 
 /*
   Initialize the transporter to send emails with
@@ -45,3 +52,19 @@ const sendSecurityReport = (filepath) => {
 		else console.log(now + ': sending email to security services');
 	});
 };
+
+/*
+Sends email with PIN for password change
+*/
+const sendChangePassword = (pin) => {
+	var mailOptions = {
+		from: app_email,
+		to: sec_email,
+		subject: 'SafeAndSound Reset Password',
+		text: 'Your PIN is ' + pin + '.  Please use this to reset your password on the directed page.\n\n-The UPS-Safe Team',
+	};
+	transporter.sendMail(mailOptions, (err, info) => {
+		if(err) throw err;
+		else console.log(now + ': sending email to security services with PIN');
+	});
+}
