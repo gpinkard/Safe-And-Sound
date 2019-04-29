@@ -105,9 +105,9 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 /*
 	A fuction to insert into the checkIn table.
 */
-exports.checkInQuery = (lat, lng, phone) => {
+exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
 };
 
 /*

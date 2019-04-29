@@ -13,13 +13,18 @@ const ctrlSecurity = require('../app_client/security/security');
 const ctrlDb = require('../app_db/db');
 
 const fs  = require('fs');
-//const array = fs.readFileSync('../Safe-And-Sound/authentication/password.json');
-//const arrayStr = JSON.parse(array);
 let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
 let userData = JSON.parse(userDataJSON);
 
-
 let user = null; // this represents the logged in user
+
+/*
+######### TODO #########
+have email saved somehow on initStudentData, then add to userConfirmLookup which will map
+the confirm/auth_token url to a email address. If the email address matches the auth
+token, we confirm them as save in the db.
+*/
+let userConfirmLookup = {}; // object that maps confirm tokens to emails
 
 router.use(session({
 	secret: 'keyboard cat',
@@ -30,8 +35,6 @@ router.use(session({
 
 router.use(passport.initialize());
 router.use(passport.session());
-
-
 
 // TODO move security credentials from server to db...
 passport.use(new LocalStrategy(ctrlDb.loginHelper));
@@ -95,6 +98,12 @@ router.get('/changePassword', (req, res) => {
 	} else {
 		res.redirect('/securityLogin');
 	}
+});
+
+router.get('/confirm_test/*', (req, res) => {
+	console.log('url');
+	console.log(req.url);
+	res.send('confirmation successful');
 });
 
 router.post('/changePassword', ctrlSecurity.changePassword);
