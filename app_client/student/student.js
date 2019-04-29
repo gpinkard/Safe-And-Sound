@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const fs  = require('fs');
+const mail = require('../notify/mail.js');
 
 /*
 const twilio = require('twilio');
@@ -23,6 +24,7 @@ module.exports.initStudentData = (req, res) => {
 	var phone = req.body.phone.replace(/\D/g, '');
 	var lat = req.body.lat;
 	var lng = req.body.lng;
+	var confirmString = mail.generateAuthToken();
 	/**
 	Check the value of the email.
 	*/
@@ -30,8 +32,10 @@ module.exports.initStudentData = (req, res) => {
 		email+= "@pugetsound.edu";
 	}
 
-	database.studentQuery(firstname, lastname, email, phone);
-	database.checkInQuery(lat, lng, phone);
+	database.studentQuery(firstname, lastname, email, phone); // insert authentication token here
+	database.checkInQuery(lat, lng, phone, 0, confirmString);
+	mail.sendStudentConfirmEmail(email, confirmString);
+	// call email function
 	res.redirect('/confirm');
 };
 
