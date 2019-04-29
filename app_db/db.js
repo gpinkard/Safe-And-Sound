@@ -9,7 +9,6 @@ const arrayStr = JSON.parse(array);
 
 
 const conn = mysql.createConnection({
-	// subject to change :)
 	host: arrayStr.host,
 	user: arrayStr.user,
 	password: arrayStr.password,
