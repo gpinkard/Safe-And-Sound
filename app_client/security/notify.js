@@ -6,9 +6,7 @@ const app_email = 'PugetsoundSafeApp@pugetsound.edu';
 const sec_email = 'gpinkard@pugetsound.edu';
 const passwordFileName = 'password.txt';
 
-const pass = fs.readFileSync(passwordFileName, 'utf-8', (err, data) => {
-	if(err) throw err;
-});
+const pass = "Safe@PugetSound2019";
 
 /*
   Initialize the transporter to send emails with

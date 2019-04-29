@@ -6,6 +6,7 @@ const mysql = require('mysql');
 const fs  = require("fs");
 
 const db = require('../../app_db/db.js');
+const notify = require('./notify.js')
 
 /**
 A back end function to clear the database.
@@ -26,6 +27,8 @@ module.exports.clearDatabase = (req, res) => {
 module.exports.securityButtonController = (req, res) => {
 	if(req.body.exportCSV === "true") {
 		db.exportTable('./app_db/reports');
+		var fileName = './2019-4-25_20:43:5.csv';
+		notify.sendSecurityReport(fileName);
 		// TODO send email with the report
 	}
 	if(req.body.changePassword === "true") {
@@ -50,12 +53,13 @@ module.exports.changePassword = (req, res) => {
 	//var temp_pin = Number(12345) //access pin from Database
 	console.log('getPIN: ' + db.getPIN(req.user.username));
 	var pin = db.getPIN(req.user.username);
-	pin = Number(pin);
-	console.log('pin: ');
-	console.log(pin);
+
 	var theirPIN = Number(req.body.PIN);
 	console.log('theirPIN:');
 	console.log(theirPIN);
+	pin = Number(pin);
+	console.log('pin: ');
+	console.log(pin);
 	if(theirPIN === pin) {
 		console.log('in if statement');
 		bcrypt.hash(req.body.newPassword, 10, function(err, hash) {
@@ -69,6 +73,7 @@ module.exports.changePassword = (req, res) => {
 		});
 		res.redirect('/securityLogin');
 	} else {
+		console.log('getPIN: ' + db.getPIN(req.user.username));
 		console.log('in else statement');
 		res.redirect('/changePassword');
 		//either return that PIN is incorrect or that some error occurred
