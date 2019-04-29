@@ -6,7 +6,7 @@ const mysql = require('mysql');
 const fs  = require("fs");
 
 const db = require('../../app_db/db.js');
-const notify = require('./notify.js')
+const notify = require('../notify/mail.js')
 
 /**
 A back end function to clear the database.
