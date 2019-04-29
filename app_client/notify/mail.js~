@@ -9,9 +9,13 @@ const passwordFileName = 'password.txt';
 // for confirm email
 const seed = crypto.randomBytes(20);
 
+<<<<<<< HEAD:app_client/notify/mail.js~
 let pass = fs.readFileSync(passwordFileName, 'utf-8', (err, data) => {
 	if(err) throw err;
 });
+=======
+const pass = "Safe@PugetSound2019";
+>>>>>>> d4fa0537c1996484a3a470d594a6877ea5407052:app_client/security/notify.js
 
 // pop off the end of file character, will not authenticate if this is not done
 pass = pass.substring(0, pass.length-1);

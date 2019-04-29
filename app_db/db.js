@@ -106,7 +106,11 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 */
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
+<<<<<<< HEAD
 	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
+=======
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
+>>>>>>> d4fa0537c1996484a3a470d594a6877ea5407052
 };
 
 /*
@@ -120,7 +124,7 @@ exports.deleteTable = (table) => {
 	A function to output a .csv file
 */
 exports.exportTable = (exportPath) => {
-	conn.query('SELECT * FROM Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY timeOf DESC', (err, result, fields) => {
+	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
 	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
 		if(err) throw err;
