@@ -48,4 +48,4 @@ const sendSecurityReport = (fileName) => {
 	});
 };
 
-sendSecurityReport();
+//sendSecurityReport();
