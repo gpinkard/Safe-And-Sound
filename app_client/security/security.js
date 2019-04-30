@@ -26,10 +26,12 @@ module.exports.clearDatabase = (req, res) => {
 
 module.exports.securityButtonController = (req, res) => {
 	if(req.body.exportCSV === "true") {
-		db.exportTable('./app_db/reports');
-		var fileName = './2019-4-25_20:43:5.csv';
+		var fileName = db.exportTable('./app_db/reports');
+		console.log(fileName);
+		console.log(__dirname);
+		fileName = '../../app_db/reports/2019-4-29_11:33:4.csv';
+		console.log('before notify');
 		notify.sendSecurityReport(fileName);
-		// TODO send email with the report
 	}
 	if(req.body.changePassword === "true") {
 		var pin = Math.floor(Math.random()*10000);
@@ -42,27 +44,27 @@ module.exports.securityButtonController = (req, res) => {
 		console.log('req.user.username');
 		console.log(req.user.username);
 		db.setPIN(pin, req.user.username);
-		// TODO add pin to db admin table (keeps admin login info)
+		notify.sendChangePassword(pin);
 		// TODO send email with pin
 		res.redirect('/changePassword');
 	}
 	res.redirect('/security');
 };
 
-module.exports.changePassword = (req, res) => {
-	//var temp_pin = Number(12345) //access pin from Database
-	console.log('getPIN: ' + db.getPIN(req.user.username));
-	var pin = db.getPIN(req.user.username);
+async function generatePIN(username, theirpin, newPassword, callback, res){
+	console.log('getPIN: ' + db.getPIN(username));
+	console.log('before ourpin');
+	var ourpin = await db.getPIN(username);
+	console.log('after ourpin');
+	callback(username, ourpin, theirpin, newPassword, res);
+}
 
-	var theirPIN = Number(req.body.PIN);
-	console.log('theirPIN:');
-	console.log(theirPIN);
-	pin = Number(pin);
-	console.log('pin: ');
-	console.log(pin);
-	if(theirPIN === pin) {
+change = (username, ourpin, theirpin, newPassword, res) => {
+	console.log('in change');
+	console.log(ourpin);
+	if(theirpin === ourpin) {
 		console.log('in if statement');
-		bcrypt.hash(req.body.newPassword, 10, function(err, hash) {
+		bcrypt.hash(newPassword, 10, function(err, hash) {
 			if(err){
 				return err;
 			} else {
@@ -73,9 +75,40 @@ module.exports.changePassword = (req, res) => {
 		});
 		res.redirect('/securityLogin');
 	} else {
-		console.log('getPIN: ' + db.getPIN(req.user.username));
 		console.log('in else statement');
 		res.redirect('/changePassword');
 		//either return that PIN is incorrect or that some error occurred
 	}
+}
+
+module.exports.changePassword = (req, res) => {
+	generatePIN(req.user.username, req.body.PIN, req.body.newPassword, change, res);
+	//var temp_pin = Number(12345) //access pin from Database
+	// console.log('getPIN: ' + db.getPIN(req.user.username));
+	// var pin = db.getPIN(req.user.username);
+  //
+	// var theirPIN = Number(req.body.PIN);
+	// console.log('theirPIN:');
+	// console.log(theirPIN);
+	// pin = Number(pin);
+	// console.log('pin: ');
+	// console.log(pin);
+	// if(theirPIN === pin) {
+	// 	console.log('in if statement');
+	// 	bcrypt.hash(req.body.newPassword, 10, function(err, hash) {
+	// 		if(err){
+	// 			return err;
+	// 		} else {
+	// 			//TODO reset password hash in database
+	// 			//user.passwordHash = hash;
+	// 			res.redirect('/securityLogin');
+	// 		}
+	// 	});
+	// 	res.redirect('/securityLogin');
+	// } else {
+	// 	console.log('getPIN: ' + db.getPIN(req.user.username));
+	// 	console.log('in else statement');
+	// 	res.redirect('/changePassword');
+	// 	//either return that PIN is incorrect or that some error occurred
+	// }
 }

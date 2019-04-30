@@ -103,7 +103,7 @@ router.get('/changePassword', (req, res) => {
 router.get('/confirm_test/*', (req, res) => {
 	console.log('url');
 	console.log(req.url);
-	res.send('confirmation successful');
+	res.sendFile(path.join(__dirname + '/../views/studentConfirmed.html'));
 });
 
 router.post('/changePassword', ctrlSecurity.changePassword);

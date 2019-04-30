@@ -2,5 +2,5 @@ node_modules/
 package-lock.json
 app_db/db.json
 app_db/reports/
-app_client/security/password.txt
+app_client/notify/password.txt
 authentication/
