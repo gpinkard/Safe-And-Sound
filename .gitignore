@@ -4,4 +4,4 @@ app_db/db.json
 app_db/reports/
 app_client/security/password.txt
 authentication/
-app_db/SecurityReports/.
+app_db/SecurityReports/*
