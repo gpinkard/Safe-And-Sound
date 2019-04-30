@@ -3,6 +3,7 @@ const fs  = require('fs');
 const path = require('path');
 const parser = require('json2csv').Parser;
 const bcrypt = require('bcrypt');
+const notify = require('../app_client/notify/mail.js')
 
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
@@ -106,9 +107,10 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 */
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 
-	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
+	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
+
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
 
 /*
@@ -121,8 +123,7 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
-exports.exportTable = (exportPath) => {
-	var fileName;
+exports.exportTable = () => {
 	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
 	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
@@ -139,12 +140,13 @@ exports.exportTable = (exportPath) => {
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
 		console.log(data);
-		fileName = path.join('/' + now + '.csv');
-		fs.writeFile(path.join(exportPath, fileName), data, (err) => {
+		let filename = __dirname + '/SecurityReports/'+ now + '.csv';
+		console.log('writing file to ' + filename);
+		fs.writeFile(filename, data, (err) => {
 			if(err) console.log(err);
-		});
+		})
+		notify.sendSecurityReport('../Safe-And-Sound/app_db/SecurityReports/' + now + '.csv');
 	});
-	return fileName;
 };
 
 const makeNumericDateString = () => {

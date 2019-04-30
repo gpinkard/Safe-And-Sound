@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const app_email = 'PugetsoundSafeApp@pugetsound.edu';
-const sec_email = 'khoefflinger@pugetsound.edu';
+const sec_email = 'bscarbrough@pugetsound.edu';
 const passwordFileName = 'password.txt';
 // for confirm email
 const seed = crypto.randomBytes(20);
@@ -35,6 +35,7 @@ const transporter = mailer.createTransport({
 */
 module.exports.sendSecurityReport = (filepath) => {
 	console.log('in send security');
+	console.log(filepath);
 	// get date for email subject
 	var date = new Date();
 	var now = date.toDateString();
@@ -47,7 +48,7 @@ module.exports.sendSecurityReport = (filepath) => {
 		attachments: [
 			{
 				filename: 'checkin.csv',
-				path: path.join(__dirname, filepath)
+				path: filepath//path.join(__dirname, filepath)
 			}
 		]
 	};
@@ -58,7 +59,7 @@ module.exports.sendSecurityReport = (filepath) => {
 	});
 };
 
-module.exports.generateAuthToken = async (studentEmail) => {
+module.exports.generateAuthToken = (studentEmail) => {
 	let authToken = crypto.createHash('sha1').update(seed + studentEmail).digest('hex');
 	console.log('authToken: ');
 	console.log(authToken);
@@ -95,4 +96,5 @@ module.exports.sendChangePassword = (pin) => {
 }
 
 // sendSecurityReport('../../app_db/reports/test.csv');
-//module.exports.sendStudentConfirmEmail('gpinkard@pugetsound.edu');
+// TODO UNCOMMENT LATER
+//module.exports.sendStudentConfirmEmail('bscarbrough@pugetsound.edu');
