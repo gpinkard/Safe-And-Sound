@@ -106,7 +106,7 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 */
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
 };
 
 /*
@@ -119,7 +119,7 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
-exports.exportTable = (exportPath) => {
+exports.exportTable = () => {
 	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
 	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 
@@ -136,9 +136,12 @@ exports.exportTable = (exportPath) => {
 		let now = makeNumericDateString();
 		console.log('now: ' + now);
 		console.log(data);
-		fs.writeFile(path.join(exportPath, '/' + now + '.csv'), data, (err) => {
+		let filename = __dirname + '/SecurityReports/'+ now + '.csv';
+		console.log('writing file to ' + filename);
+		fs.writeFile(filename, data, (err) => {
 			if(err) console.log(err);
-		});
+		})
+		return filename;
 	});
 };
 

@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const app_email = 'PugetsoundSafeApp@pugetsound.edu';
-const sec_email = 'gpinkard@pugetsound.edu';
+const sec_email = 'bscarbrough@pugetsound.edu';
 const passwordFileName = 'password.txt';
 // for confirm email
 const seed = crypto.randomBytes(20);
@@ -78,4 +78,4 @@ module.exports.sendStudentConfirmEmail = (studentEmail, authToken) => {
 }
 
 // sendSecurityReport('../../app_db/reports/test.csv');
-module.exports.sendStudentConfirmEmail('gpinkard@pugetsound.edu');
+module.exports.sendStudentConfirmEmail('bscarbrough@pugetsound.edu');

@@ -1,0 +1,12 @@
+"lName","fName","timeOf","phoneNum","email","lat","lng"
+"asdf","gpinkard","2019-4-29_20:14:23",4084776806,"gpinkard@pugetsound.edu",0,0
+"assgdhf","sadsgdhf","2019-4-29_15:24:59",2345654322345,"asdghfgjhg@pugetsound.edu",47.2650431,-122.4808845
+"billy","asdf","2019-4-29_16:41:27",4324236789,"abilly@pugetsound.edu",0,0
+"Hoefflinger","Katrina","2019-4-29_16:42:58",6504923114,"khoefflinger@pugetsound.edu",47.26367736457438,-122.48300218909704
+"me","fuck","2019-4-29_16:33:31",3235621875,"fme@pugetsound.edu",47.2646,-122.4821
+"PoopyButthole","Mr","2019-4-29_21:57:54",4444444444,"mPoopyButthole@pugetsound.edu",0,0
+"sadfgg","asdgfhg","2019-4-29_15:59:43",213454657685,"dsaADFSG@pugetsound.edu",47.265042,-122.4808239
+"sadfsgd","asdgf","2019-4-29_15:24:13",12345676432,"asdfdsgfdh@pugetsound.edu",47.2650431,-122.4808845
+"Scarbrough","Ben","2019-4-29_20:6:22",1234567890,"helloworld@pugetsound.edu",0,0
+"select * from CheckIn","select * from Student","2019-4-29_21:37:2",1234567543,"asdfsg@pugetsound.edu",0,0
+"Smith","Bob","2019-4-29_20:3:44",4234234232,"bsmith@pugetsound.edu",0,0

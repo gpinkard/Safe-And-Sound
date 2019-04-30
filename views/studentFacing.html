@@ -3,6 +3,7 @@
 
 <head>
   <script type="text/javascript" src="../scripts/studentFacingScripts.js"> </script>
+  <script type="text/javascript"> getLoc(); </script>
   <!-- link(rel='stylesheet', href='/stylesheets/style.css')
   Univers LT Std-->
   <meta name="viewport" content="width = device-width, initial-scale=1">
@@ -72,22 +73,6 @@
     <input hidden type="text" name="lng" id="lng" value="0.0000000"><br>
     <input type="submit" value="Safe">
   </form>
-  <script>
-    const getLoc = () => {
-      if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getLatlng);
-      } else {
-        console.log('geolocation not supported'); // add dummy vaues here
-      }
-    };
-    const getLatlng = (position) => {
-      //console.log('lat: ' + position.coords.latitude);
-      //console.log('lng: ' + position.coords.lnggitude);
-      document.getElementById("lat").value = position.coords.latitude;
-      document.getElementById("lng").value = position.coords.longitude;
-    }
-    getLoc();
-  </script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>

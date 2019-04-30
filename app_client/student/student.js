@@ -24,7 +24,7 @@ module.exports.initStudentData = (req, res) => {
 	var phone = req.body.phone.replace(/\D/g, '');
 	var lat = req.body.lat;
 	var lng = req.body.lng;
-	var confirmString = mail.generateAuthToken();
+	//var confirmString = mail.generateAuthToken();
 	/**
 	Check the value of the email.
 	*/
@@ -33,8 +33,9 @@ module.exports.initStudentData = (req, res) => {
 	}
 
 	database.studentQuery(firstname, lastname, email, phone); // insert authentication token here
-	database.checkInQuery(lat, lng, phone, 0, confirmString);
-	mail.sendStudentConfirmEmail(email, confirmString);
+	database.checkInQuery(lat, lng, phone, null, null);
+	console.log("checkIn passed");
+	//mail.sendStudentConfirmEmail(email, confirmString);
 	// call email function
 	res.redirect('/confirm');
 };

@@ -23,12 +23,14 @@ module.exports.clearDatabase = (req, res) => {
 	}
 };
 
-
 module.exports.securityButtonController = (req, res) => {
-	if(req.body.exportCSV === "true") {
-		db.exportTable('./app_db/reports');
-		var fileName = './2019-4-25_20:43:5.csv';
-		notify.sendSecurityReport(fileName);
+	if(req.body.exportCSV) {
+		// TODO SENDS EMAIL BEFORE FILE IS MADE.
+		let filename = await (db.exportTable());
+		console.log("FILENAME");
+		console.log(filename);
+		Promise (notify.sendSecurityReport(filename));
+		console.log("EMAIL SENT !!!!!!!!!!!!");
 		// TODO send email with the report
 	}
 	if(req.body.changePassword === "true") {
