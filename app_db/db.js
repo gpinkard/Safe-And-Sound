@@ -3,6 +3,7 @@ const fs  = require('fs');
 const path = require('path');
 const parser = require('json2csv').Parser;
 const bcrypt = require('bcrypt');
+const notify = require('../app_client/notify/mail.js')
 
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
@@ -106,7 +107,10 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 */
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
+
+	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
+
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
 
 /*
@@ -141,7 +145,7 @@ exports.exportTable = () => {
 		fs.writeFile(filename, data, (err) => {
 			if(err) console.log(err);
 		})
-		return filename;
+		notify.sendSecurityReport('../Safe-And-Sound/app_db/SecurityReports/' + now + '.csv');
 	});
 };
 

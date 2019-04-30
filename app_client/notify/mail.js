@@ -34,6 +34,8 @@ const transporter = mailer.createTransport({
   Sends an email to UPS security with the .csv file specified by filepath (filepath is a relative path the the file in question)
 */
 module.exports.sendSecurityReport = (filepath) => {
+	console.log('in send security');
+	console.log(filepath);
 	// get date for email subject
 	var date = new Date();
 	var now = date.toDateString();
@@ -42,11 +44,11 @@ module.exports.sendSecurityReport = (filepath) => {
 		from: app_email,
 		to: sec_email,
 		subject: 'SafeAndSound Check In Report ' + now,
-		text: 'Safe And Sound check in report for ' + now + ' attached.\n\n-The UPS-Safe Team',
+		text: 'Hello, \n\n  Safe And Sound check in report for ' + now + ' attached.\n\n-The UPS-Safe Team',
 		attachments: [
 			{
 				filename: 'checkin.csv',
-				path: filepath
+				path: filepath//path.join(__dirname, filepath)
 			}
 		]
 	};
@@ -57,19 +59,19 @@ module.exports.sendSecurityReport = (filepath) => {
 	});
 };
 
-module.exports.generateAuthToken = () => {
+module.exports.generateAuthToken = (studentEmail) => {
 	let authToken = crypto.createHash('sha1').update(seed + studentEmail).digest('hex');
 	console.log('authToken: ');
 	console.log(authToken);
 };
 
-module.exports.sendStudentConfirmEmail = (studentEmail, authToken) => {
+module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) => {
 	let confirmURL = 'localhost:3000/confirm_test/' + authToken;
 	var mailOptions = {
 		from: app_email,
 		to: studentEmail,
 		subject: 'Verify Safe Check In',
-		text: 'Please verify you are safe by clicking on this link:\n' + confirmURL + '\n\n-The UPS-Safe Team'
+		text: 'Dear ' + firstName + ', \n\nPlease verify you are safe by clicking on this link:\n' + confirmURL + '\nRemember, this is not a replacement for emergency services.  If you are unsafe, please call 911.\n\nStay Safe, \n-The UPS-Safe Team'
 	}
 
 	transporter.sendMail(mailOptions, (err, info) => {
@@ -77,5 +79,22 @@ module.exports.sendStudentConfirmEmail = (studentEmail, authToken) => {
 	});
 }
 
+/*
+Sends email with PIN for password change
+*/
+module.exports.sendChangePassword = (pin) => {
+	var mailOptions = {
+		from: app_email,
+		to: sec_email,
+		subject: 'SafeAndSound Reset Password',
+		text: 'Hello, \n\nYour PIN is ' + pin + '.  Please use this to reset your password on the directed page.\n\n-The UPS-Safe Team',
+	};
+	transporter.sendMail(mailOptions, (err, info) => {
+		if(err) throw err;
+		else console.log(now + ': sending email to security services with PIN');
+	});
+}
+
 // sendSecurityReport('../../app_db/reports/test.csv');
-module.exports.sendStudentConfirmEmail('bscarbrough@pugetsound.edu');
+// TODO UNCOMMENT LATER
+//module.exports.sendStudentConfirmEmail('bscarbrough@pugetsound.edu');
