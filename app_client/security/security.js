@@ -23,33 +23,6 @@ module.exports.clearDatabase = (req, res) => {
 	}
 };
 
-
-
-
-// function getCSV(callback) {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve(db.exportTable());
-//     }, 2000);
-//   });
-// }
-//
-// async function sendCSV() {
-// 	let filename = await getCSV();
-// 	await notify.sendSecurityReport(filename);
-// }
-
-// async function csvAsync() {
-//   	let promise = new Promise((res, rej) => {
-//         setTimeout(() => res(db.exportTable()), 1000)
-//     });
-//     let result = await promise;
-//   	notify.sendSecurityReport(result);
-//     }
-// };
-
-
-
 module.exports.securityButtonController = (req, res) => {
 	if(req.body.exportCSV){
 		db.exportTable();
