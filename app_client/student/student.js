@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const fs  = require('fs');
+const async = require('async');
 const mail = require('../notify/mail.js');
 
 /*
@@ -16,9 +17,9 @@ const database = require('../../app_db/db.js');
 
 /*
  * This function initializes student data in the database
- */
+*/
 module.exports.initStudentData = (req, res) => {
-	
+
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
 	var email = req.body.email;
@@ -40,6 +41,42 @@ module.exports.initStudentData = (req, res) => {
 	// call email function
 	res.redirect('/confirm');
 };
+
+// module.exports.initStudentData = async (req, res) => {
+// 	async.waterfall([
+// 			getConfirmString(req.email),
+// 			getStudentData(req, res),
+// 			insertValuesIntoDB,
+// 			sendConfirmEmailStudent
+// 	]);
+// 	res.redirect('/confirm');
+// };
+//
+// function sendConfirmEmailStudent(values) {
+// 	mail.sendStudentConfirmEmail(values.email, values.firstname, values.confirmString);
+// }
+//
+// function insertValuesIntoDB(values) {
+// 	database.studentQuery(values.firstname, values.lastname, values.email, values.phone);
+// 	database.checkInQuery(values.lat, values.lng, values.phone, 0, values.confirmString);
+// 	return {email: values.email, firstname: values.firstname, confirmString: values.confirmString};
+// }
+//
+// function getConfirmString(email) {
+// 	return mail.generateAuthToken(email);
+// }
+//
+// function getStudentData(req, res, authString) {
+// 	return {
+// 		firstname: req.body.firstname,
+// 		lastname: req.body.lastname,
+// 		phone: req.body.phone.replace(/\D/g, ''),
+// 		email: req.body.email,
+// 		lat: req.body.lat,
+// 		lng: req.body.lng,
+// 		confirmString: authString
+// 	}
+// }
 
 // module.exports.studentCheckIn = (req, res) => {
 // 	var firstname = req.body.firstname;
