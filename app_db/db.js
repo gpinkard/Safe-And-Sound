@@ -133,8 +133,9 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 */
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
-// 	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
 	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
+
+	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+", '"+isVerified+"', '"+link+"')");
 };
 
 /*
