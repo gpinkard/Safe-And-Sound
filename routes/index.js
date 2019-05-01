@@ -13,8 +13,6 @@ const ctrlSecurity = require('../app_client/security/security');
 const ctrlDb = require('../app_db/db');
 
 const fs  = require('fs');
-let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
-let userData = JSON.parse(userDataJSON);
 
 let user = null; // this represents the logged in user
 
