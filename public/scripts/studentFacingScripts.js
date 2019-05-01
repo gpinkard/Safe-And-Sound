@@ -30,6 +30,9 @@ function validateForm () {
   }
 };
 
+/**
+A function that gets the users coordinates.
+*/
 function getLoc () {
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getLatLng);
@@ -39,10 +42,6 @@ function getLoc () {
 };
 
 function getLatLng (position) {
-  //document.forms["studentFF"]["lat"].value = position.coords.latitude;
-  //document.forms["studentFF"]["lat"].value = position.coords.longitude;
-  console.log('made it here...');
-  console.log(position.coords.latitude);
   document.getElementById('lat').value = position.coords.latitude;
   document.getElementById('lng').value = position.coords.longitude;
 };
