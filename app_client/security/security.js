@@ -28,6 +28,7 @@ module.exports.clearDatabase = (req, res) => {
 	}
 };
 
+
 module.exports.clearCheckin = (req, res) => {
 	if(req.body.dbClear === 'CLEARCHECKIN'){
 		var d = new Date();
