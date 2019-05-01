@@ -84,6 +84,17 @@ router.get('/clearDatabase', (req, res) => {
 
 router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
+
+router.get('/clearCheckin', (req, res) => {
+	if(req.isAuthenticated()) {
+		res.sendFile(path.join(__dirname + '/../views/clearCheckin.html'));
+	} else {
+		res.redirect('/securityLogin');
+	}
+});
+
+router.post('/clearCheckin', ctrlSecurity.clearCheckin);
+
 router.get('/deleteConfirm', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/deleteConfirm.html'));
