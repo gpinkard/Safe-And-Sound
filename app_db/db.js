@@ -3,12 +3,18 @@ const fs  = require('fs');
 const path = require('path');
 const parser = require('json2csv').Parser;
 const bcrypt = require('bcrypt');
-const notify = require('../app_client/notify/mail.js')
+const notify = require('../app_client/notify/mail.js');
 
 const array = fs.readFileSync('../Safe-And-Sound/app_db/db.json');
 const arrayStr = JSON.parse(array);
 
+/**
+	Handles the database interactions
+*/
 
+/*
+	Connects to the database to allow for querying
+*/
 const conn = mysql.createConnection({
 	host: arrayStr.host,
 	user: arrayStr.user,
@@ -25,59 +31,79 @@ conn.connect( (err) => {
 	}
 });
 
+/*
+	Sets the users pin in the database for the change password function
+*/
 exports.setPIN = (pin, username) => {
 	username = ' "' + username + '"';
 	conn.query("UPDATE Admin SET pin = " + pin + " WHERE username=" + username);
 };
 
+/*
+	Gets the pin from the database for change password confirmation
+*/
 exports.getPIN = (username) => {
 	username = ' "' + username + '"';
-	console.log('username:');
-	console.log(username);
 	conn.query("SELECT pin FROM Admin WHERE username=" + username, (err, result, fields) => {
 		if(err) throw err;
-		const jsonSecurity = JSON.parse(JSON.stringify(result));
+		const jsonPIN = JSON.parse(JSON.stringify(result));
 		console.log('pin(db): ');
-		console.log(jsonSecurity[0].pin);
-		return jsonSecurity[0].pin;
+		console.log(jsonPIN[0].pin);
+		return jsonPIN[0].pin;
 		});
 };
 
+/*
+	Sets up login for Password with needed database interaction
+*/
 exports.loginHelper = ((username, password, done) => {
 	username = ' "' + username + '"';
 	conn.query("SELECT * FROM Admin WHERE username =" + username, (err, result, fields) => {
 		if(err) throw err;
+		//If username not found, returns to login page
 		if(result.length === 0) return done(null, false, {message: 'user ' + username + ' not found'});
+
 		const jsonSecurity = JSON.parse(JSON.stringify(result));
 		let passwordStr = '';
-		console.log(jsonSecurity[0]);
+		//console.log(jsonSecurity[0]);
 		if(jsonSecurity.length !== 0) {
 			passwordStr = jsonSecurity[0].passwordHash;
 		}
+
+		//Compares passwords and returns whethr or not the password is valid
 		bcrypt.compare(password, passwordStr, (err, isValid) => {
 			if(err) throw err;
+
+			//Incorrect password
 			if(!isValid) {
 				console.log('incorrect password...');
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
+				//Correct password
 				console.log('user ' + username + ' is now authenticated');
 				let tempUser = {};
 				tempUser.username = jsonSecurity[0].username;
 				tempUser.password = jsonSecurity[0].passwordHash;
 				tempUser.id = jsonSecurity[0].idAdmin;
-				console.log('tempUser:');
-				console.log(tempUser);
+				//console.log('tempUser:');
+				//console.log(tempUser);
 				return done(null, tempUser);
 			}
 		});
 	});
 });
 
+/*
+	Deserializes user, a method needed for Passport
+*/
 exports.deserialize = (username, cb) => {
 	username = ' "' + username + '"';
 	conn.query("SELECT * FROM Admin WHERE username =" + username, (err, result, fields) => {
 		if(err) throw err;
-		if(result.length === 0) return done(null, false, {message: 'user ' + username + ' not found'}); //throw error!!
+
+		//Username does not exist in database
+		if(result.length === 0) return done(null, false, {message: 'user ' + username + ' not found'});
+
 		const jsonSecurity = JSON.parse(JSON.stringify(result));
 		let tempUser = {};
 		tempUser.username = jsonSecurity[0].username;
@@ -123,11 +149,10 @@ exports.deleteTable = (table) => {
 /*
 	A function to output a .csv file
 */
+
 exports.exportTable = () => {
 	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
 	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
-
-		if(err) throw err;
 		const jsonStudents = JSON.parse(JSON.stringify(result));
 		//const csvFields = ['lName', 'fName', 'phoneNum', 'email', 'lat', 'lng', 'time'];
 
