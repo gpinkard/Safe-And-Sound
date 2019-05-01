@@ -103,6 +103,7 @@ router.get('/clearDatabase', (req, res) => {
 //Sends clear database information to database
 router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
+
 router.get('/clearCheckin', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/clearCheckin.html'));
@@ -115,6 +116,7 @@ router.post('/clearCheckin', ctrlSecurity.clearCheckin);
 
 //Delete Confirm page, telling user that the database is clear, and will send
 //unauthenticated users to the login page
+
 router.get('/deleteConfirm', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/deleteConfirm.html'));

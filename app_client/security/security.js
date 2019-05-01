@@ -16,17 +16,17 @@ const notify = require('../notify/mail.js')
 	A back end function to clear the database.
 */
 module.exports.clearDatabase = (req, res) => {
-	if(req.body.dbClear === 'CLEARALLDB'){
+	if(req.body.dbClear === 'CLEARDB'){
 		var d = new Date();
 		var time = d.getTime();
-		console.log("All Databases cleared: " + time);
+		console.log("Database cleared: " + time);
 		db.deleteTable("Student");
-		db.deleteTable("CheckIn");
 		res.redirect('/deleteConfirm');
 	} else{
 		res.redirect('/clearDatabase');
 	}
 };
+
 
 module.exports.clearCheckin = (req, res) => {
 	if(req.body.dbClear === 'CLEARCHECKIN'){
