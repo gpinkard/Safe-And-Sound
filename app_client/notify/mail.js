@@ -10,6 +10,11 @@ const passwordFileName = 'password.txt';
 // for confirm email
 const seed = crypto.randomBytes(20);
 
+/**
+	Handles all notifcation related functions, including changing password,
+	exporting the table, and sending student confirmation emails
+*/
+
 let pass = fs.readFileSync(path.join(__dirname, passwordFileName), 'utf-8', (err, data) => {
 	if(err) throw err;
 });
@@ -40,6 +45,7 @@ module.exports.sendSecurityReport = (filepath) => {
 	var date = new Date();
 	var now = date.toDateString();
 
+	//Related check in email information
 	var mailOptions = {
 		from: app_email,
 		to: sec_email,
@@ -53,20 +59,30 @@ module.exports.sendSecurityReport = (filepath) => {
 		]
 	};
 
+	//Sends the message
 	transporter.sendMail(mailOptions, (err, info) => {
 		if(err) throw err;
 		else console.log(now + ': sending email to security services');
 	});
 };
 
+/*
+	Creates unique identifier for student confirmation
+*/
 module.exports.generateAuthToken = (studentEmail) => {
 	let authToken = crypto.createHash('sha1').update(seed + studentEmail).digest('hex');
 	console.log('authToken: ');
 	console.log(authToken);
+	return authToken;
 };
 
+/*
+	Sends student email with unique confirmation URL
+*/
 module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) => {
 	let confirmURL = 'localhost:3000/confirm_test/' + authToken;
+
+	//Details for student confirmation email
 	var mailOptions = {
 		from: app_email,
 		to: studentEmail,
@@ -80,7 +96,7 @@ module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) =>
 }
 
 /*
-Sends email with PIN for password change
+	Sends email with PIN for password change
 */
 module.exports.sendChangePassword = (pin) => {
 	var mailOptions = {

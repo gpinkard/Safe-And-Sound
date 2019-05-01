@@ -26,6 +26,7 @@ token, we confirm them as save in the db.
 */
 let userConfirmLookup = {}; // object that maps confirm tokens to emails
 
+//Keeos login true for 1 day
 router.use(session({
 	secret: 'keyboard cat',
 	resave: false,
@@ -33,10 +34,13 @@ router.use(session({
 	cookie: { maxAge: 1000*60*60*24 } //one day
 }));
 
+/*
+	Initializes Passport to function with the app
+*/
 router.use(passport.initialize());
 router.use(passport.session());
 
-// TODO move security credentials from server to db...
+//Tells Passport to use the LocalStrategy
 passport.use(new LocalStrategy(ctrlDb.loginHelper));
 
 passport.serializeUser(function(user, cb) {
@@ -45,25 +49,35 @@ passport.serializeUser(function(user, cb) {
 
 passport.deserializeUser(ctrlDb.deserialize);
 
+
+/*
+	Handling web requests
+*/
+
+//Home page, with student checkin
 router.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/studentFacing.html'));
 });
 
+//Sends student data where it needs to go
 router.post('/', ctrlStudent.initStudentData);
 
+//Confirm check in page
 router.get('/confirm', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/studentVerify.html'));
 });
 
+//Security Login page
 router.get('/securityLogin', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../views/securityLogin.html'));
 });
 
-
+//Sends login information to Passport to authenticate
 router.post('/securityLogin', passport.authenticate('local', {failureRedirect: '/securityLogin'}), (req, res) => {
 	res.redirect('/security');
 });
 
+//Security landing page, which will send unauthenticated users to the login page
 router.get('/security', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/securityOnly.html'));
@@ -72,8 +86,12 @@ router.get('/security', (req, res) => {
 	}
 });
 
+//Handles security actions
 router.post('/security', ctrlSecurity.securityButtonController);
 
+
+//Clear Database confirmation page, which will send unauthenticated users to the
+//login page
 router.get('/clearDatabase', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/clearDatabase.html'));
@@ -82,8 +100,11 @@ router.get('/clearDatabase', (req, res) => {
 	}
 });
 
+//Sends clear database information to database
 router.post('/clearDatabase', ctrlSecurity.clearDatabase);
 
+//Delete Confirm page, telling user that the database is clear, and will send
+//unauthenticated users to the login page
 router.get('/deleteConfirm', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/deleteConfirm.html'));
@@ -92,6 +113,8 @@ router.get('/deleteConfirm', (req, res) => {
 	}
 });
 
+//Change Password page, allowing authenticated user to change password, and
+//sending unauthenticated users to login page
 router.get('/changePassword', (req, res) => {
 	if(req.isAuthenticated()) {
 		res.sendFile(path.join(__dirname + '/../views/changePassword.html'));
@@ -100,12 +123,14 @@ router.get('/changePassword', (req, res) => {
 	}
 });
 
+//Sends change password information to server
+router.post('/changePassword', ctrlSecurity.changePassword);
+
+//Verify Safe page, allowing students to verify their checkin using a unique url
 router.get('/confirm_test/*', (req, res) => {
 	console.log('url');
 	console.log(req.url);
 	res.sendFile(path.join(__dirname + '/../views/studentConfirmed.html'));
 });
-
-router.post('/changePassword', ctrlSecurity.changePassword);
 
 module.exports = router;
