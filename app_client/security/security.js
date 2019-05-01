@@ -1,15 +1,19 @@
 const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt');
-
 const mysql = require('mysql');
-const fs  = require("fs");
+const fs  = require('fs');
+const promise = require('promise');
 
 const db = require('../../app_db/db.js');
 const notify = require('../notify/mail.js')
 
 /**
-A back end function to clear the database.
+	Handles functions related to security side
+*/
+
+/*
+	A back end function to clear the database.
 */
 module.exports.clearDatabase = (req, res) => {
 	if(req.body.dbClear === 'CLEARDB'){
@@ -23,47 +27,66 @@ module.exports.clearDatabase = (req, res) => {
 	}
 };
 
-
+/*
+	Handles buttons on the security landing page, sending the appropriate response
+*/
 module.exports.securityButtonController = (req, res) => {
+	//Export table button
+	let filename = '';
 	if(req.body.exportCSV === "true") {
-		var fileName = db.exportTable('./app_db/reports');
-		console.log(fileName);
-		console.log(__dirname);
-		fileName = '../../app_db/reports/2019-4-29_11:33:4.csv';
-		console.log('before notify');
-		notify.sendSecurityReport(fileName);
+		console.log('before exportTable');
+		let writeToDB = new Promise( (resolve, reject) => {
+			filename = db.exportTable('./app_db/reports');
+			console.log('done with export table');
+		});
+		writeToDB.then(function successHandler(result) {
+			console.log('INSIDE SUCCESSHANDLER!!!');
+			filename = '../../app_db/reports/' + filename;
+			notify.sendSecurityReport(filename);
+		}, function failiureHandler(err) {
+			if(err) throw err;
+		});
 	}
+	//Change password button
 	if(req.body.changePassword === "true") {
-		var pin = Math.floor(Math.random()*10000);
+		//Creates and sets pin in database
+		var pin = Math.floor(Math.random()*1000000);
 		// let pin = '';
 		// for(let i = 0; i < 6; i++) {
 		// 	let cur = Math.floor(Math.random()*10);
 		// 	pin += String(cur);
 		// }
 		console.log(pin);
-		console.log('req.user.username');
-		console.log(req.user.username);
 		db.setPIN(pin, req.user.username);
+		//Sends PIN to security
 		notify.sendChangePassword(pin);
-		// TODO send email with pin
 		res.redirect('/changePassword');
 	}
 	res.redirect('/security');
 };
 
+/*
+	Change password helper function to get the PIN
+*/
 async function generatePIN(username, theirpin, newPassword, callback, res){
 	console.log('getPIN: ' + db.getPIN(username));
 	console.log('before ourpin');
+	//Waits for PIN to be received
 	var ourpin = await db.getPIN(username);
 	console.log('after ourpin');
 	callback(username, ourpin, theirpin, newPassword, res);
 }
 
+/*
+	Change password function to reset the password
+*/
 change = (username, ourpin, theirpin, newPassword, res) => {
 	console.log('in change');
 	console.log(ourpin);
+	//If correct PIN input, change password
 	if(theirpin === ourpin) {
 		console.log('in if statement');
+		//Creates new hash and resets password in database
 		bcrypt.hash(newPassword, 10, function(err, hash) {
 			if(err){
 				return err;
@@ -75,12 +98,17 @@ change = (username, ourpin, theirpin, newPassword, res) => {
 		});
 		res.redirect('/securityLogin');
 	} else {
+		//Incorrect PIN, return to same page
 		console.log('in else statement');
 		res.redirect('/changePassword');
 		//either return that PIN is incorrect or that some error occurred
+		//flash message??
 	}
 }
 
+/*
+	Change password full function
+*/
 module.exports.changePassword = (req, res) => {
 	generatePIN(req.user.username, req.body.PIN, req.body.newPassword, change, res);
 	//var temp_pin = Number(12345) //access pin from Database
