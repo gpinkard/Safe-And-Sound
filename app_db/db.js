@@ -167,10 +167,26 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
 
-	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', "+isVerified+", '"+link+"')");
 
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
+	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
+
+/*
+Confirms student check in
+*/
+exports.confirmStudent = (req, res) => {
+	let linkArr = req.url.split('/');
+	let link = ' "' + linkArr[linkArr.length-1] + '"';
+	console.log('link: ' + link);
+	conn.query("UPDATE CheckIn SET verified = 1 WHERE link = " + link, (err, result, fields) => {
+		console.log('in query');
+		if(err) throw err;
+		console.log(path.join(__dirname, '/../views/studentConfirmed.html'));
+		res.sendFile(path.join(__dirname, '/../views/studentConfirmed.html'));
+		}
+	);
+}
 
 /*
 	A function to clear all values from the given table
@@ -184,12 +200,12 @@ exports.deleteTable = (table) => {
 */
 
 exports.exportTable = () => {
-	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
+	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng, verified from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
 	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
 		const jsonStudents = JSON.parse(JSON.stringify(result));
 		//const csvFields = ['lName', 'fName', 'phoneNum', 'email', 'lat', 'lng', 'time'];
 
-		const csvFields = ['lName, fName, timeOf, phoneNum, email, lat, lng'];
+		const csvFields = ['lName, fName, timeOf, phoneNum, email, lat, lng, verified'];
 		const json2CSVParser = new parser({csvFields});
 		let data = '';
 		if(jsonStudents.length !== 0) {

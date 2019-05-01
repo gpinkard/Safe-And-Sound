@@ -51,6 +51,16 @@ module.exports.initStudentData = (req, res) => {
 	res.redirect('/confirm');
 };
 
+module.exports.confirmStudent = (req, res) => {
+	console.log('url');
+	console.log(req.url);
+	database.confirmStudent(req, res);
+	//do shit with url to change verified status
+	//probably should put gen auth token in dbjs
+	//console.log(path.join(__dirname, '/../../views/studentConfirmed.html'));
+	//res.sendFile(path.join(__dirname, '/../../views/studentConfirmed.html'));
+}
+
 // module.exports.initStudentData = async (req, res) => {
 // 	async.waterfall([
 // 			getConfirmString(req.email),

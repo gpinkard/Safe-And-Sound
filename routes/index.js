@@ -13,8 +13,6 @@ const ctrlSecurity = require('../app_client/security/security');
 const ctrlDb = require('../app_db/db');
 
 const fs  = require('fs');
-let userDataJSON = fs.readFileSync('../Safe-And-Sound/authentication/users.json');
-let userData = JSON.parse(userDataJSON);
 
 let user = null; // this represents the logged in user
 
@@ -127,10 +125,6 @@ router.get('/changePassword', (req, res) => {
 router.post('/changePassword', ctrlSecurity.changePassword);
 
 //Verify Safe page, allowing students to verify their checkin using a unique url
-router.get('/confirm_test/*', (req, res) => {
-	console.log('url');
-	console.log(req.url);
-	res.sendFile(path.join(__dirname + '/../views/studentConfirmed.html'));
-});
+router.get('/verify/*', ctrlStudent.confirmStudent);
 
 module.exports = router;

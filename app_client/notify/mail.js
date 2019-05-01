@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const app_email = 'PugetsoundSafeApp@pugetsound.edu';
-const sec_email = 'bscarbrough@pugetsound.edu';
+const sec_email = 'khoefflinger@pugetsound.edu';
 const passwordFileName = 'password.txt';
 // for confirm email
 const seed = crypto.randomBytes(20);
@@ -80,7 +80,7 @@ module.exports.generateAuthToken = (studentEmail) => {
 	Sends student email with unique confirmation URL
 */
 module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) => {
-	let confirmURL = 'localhost:3000/confirm_test/' + authToken;
+	let confirmURL = 'localhost:3000/verify/' + authToken;
 
 	//Details for student confirmation email
 	var mailOptions = {
