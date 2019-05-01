@@ -16,29 +16,36 @@ const client = new twilio(twilioAccountSid, twilioAuthToken);
 const database = require('../../app_db/db.js');
 
 /*
- * This function initializes student data in the database
+ * This function initializes student data in the database, and sends
+ * the student a confirmation email**
 */
 module.exports.initStudentData = (req, res) => {
-
 	var firstname = req.body.firstname;
 	var lastname = req.body.lastname;
 	var email = req.body.email;
-	var phone = req.body.phone.replace(/\D/g, '');
+	var phone = req.body.phone.replace(/\D/g, ''); //inserts only the number
 	console.log('Phone: ' + phone);
 	var lat = req.body.lat;
 	var lng = req.body.lng;
 	//var confirmString = mail.generateAuthToken();
 
 	/**
-	Check the value of the email.
+	Check the value of the email, appending @pugetsound.edu as needed.
 	*/
 	if(!email.includes("@pugetsound.edu")){
 		email+= "@pugetsound.edu";
 	}
+
+	/*
+		Sends an email with the unique confirmation URL to the student
+	*/
 	var confirmString = String(mail.generateAuthToken(email));
 	console.log('confirmString: ' + confirmString);
+	//Adds student to the Student table
 	database.studentQuery(firstname, lastname, email, phone); // insert authentication token here
+	//Adds this checkin to the Checkin table
 	database.checkInQuery(lat, lng, phone, 0, confirmString);
+	//Sends the confirmation email with the unique confirmation URL
 	mail.sendStudentConfirmEmail(email, firstname, confirmString);
 	// call email function
 	res.redirect('/confirm');
