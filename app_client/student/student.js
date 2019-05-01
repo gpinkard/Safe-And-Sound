@@ -27,6 +27,8 @@ module.exports.initStudentData = (req, res) => {
 	console.log('Phone: ' + phone);
 	var lat = req.body.lat;
 	var lng = req.body.lng;
+	//var confirmString = mail.generateAuthToken();
+
 	/**
 	Check the value of the email, appending @pugetsound.edu as needed.
 	*/

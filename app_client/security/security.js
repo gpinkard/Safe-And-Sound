@@ -31,21 +31,8 @@ module.exports.clearDatabase = (req, res) => {
 	Handles buttons on the security landing page, sending the appropriate response
 */
 module.exports.securityButtonController = (req, res) => {
-	//Export table button
-	let filename = '';
-	if(req.body.exportCSV === "true") {
-		console.log('before exportTable');
-		let writeToDB = new Promise( (resolve, reject) => {
-			filename = db.exportTable('./app_db/reports');
-			console.log('done with export table');
-		});
-		writeToDB.then(function successHandler(result) {
-			console.log('INSIDE SUCCESSHANDLER!!!');
-			filename = '../../app_db/reports/' + filename;
-			notify.sendSecurityReport(filename);
-		}, function failiureHandler(err) {
-			if(err) throw err;
-		});
+	if(req.body.exportCSV){
+		db.exportTable();
 	}
 	//Change password button
 	if(req.body.changePassword === "true") {
