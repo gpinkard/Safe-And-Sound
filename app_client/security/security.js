@@ -61,13 +61,14 @@ module.exports.securityButtonController = (req, res) => {
 		//Sends PIN to security
 		notify.sendChangePassword(pin);
 		res.redirect('/changePassword');
+	} else {
+		res.redirect('/security');
 	}
-	res.redirect('/security');
 };
 
 /*
 	Change password helper function to get the PIN
-*/
+
 async function generatePIN(username, theirpin, newPassword, callback, res){
 	console.log('getPIN: ' + db.getPIN(username));
 	console.log('before ourpin');
@@ -79,7 +80,7 @@ async function generatePIN(username, theirpin, newPassword, callback, res){
 
 /*
 	Change password function to reset the password
-*/
+
 change = (username, ourpin, theirpin, newPassword, res) => {
 	console.log('in change');
 	console.log(ourpin);
@@ -106,11 +107,14 @@ change = (username, ourpin, theirpin, newPassword, res) => {
 	}
 }
 
+*/
+
 /*
 	Change password full function
 */
 module.exports.changePassword = (req, res) => {
-	generatePIN(req.user.username, req.body.PIN, req.body.newPassword, change, res);
+	db.getPIN(req.user.username, req.body.PIN, req.body.newPassword, res);
+	//generatePIN(req.user.username, req.body.PIN, req.body.newPassword, change, res);
 	//var temp_pin = Number(12345) //access pin from Database
 	// console.log('getPIN: ' + db.getPIN(req.user.username));
 	// var pin = db.getPIN(req.user.username);

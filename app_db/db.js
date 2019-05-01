@@ -36,22 +36,55 @@ conn.connect( (err) => {
 */
 exports.setPIN = (pin, username) => {
 	username = ' "' + username + '"';
+	console.log('pin in set: ' + pin);
 	conn.query("UPDATE Admin SET pin = " + pin + " WHERE username=" + username);
 };
 
 /*
 	Gets the pin from the database for change password confirmation
 */
-exports.getPIN = (username) => {
+exports.getPIN = (username, theirPIN, newPassword, res) => {
 	username = ' "' + username + '"';
 	conn.query("SELECT pin FROM Admin WHERE username=" + username, (err, result, fields) => {
 		if(err) throw err;
 		const jsonPIN = JSON.parse(JSON.stringify(result));
 		console.log('pin(db): ');
 		console.log(jsonPIN[0].pin);
-		return jsonPIN[0].pin;
-		});
+		console.log('theirPIN: ' + theirPIN);
+		var pin = Number(jsonPIN[0].pin);
+		theirPIN = Number(theirPIN);
+
+		//compare given pin to stored PIN
+		//set password with bcrypt
+		//redirect
+		if(theirPIN === pin) {
+		 	console.log('in if statement');
+		 	bcrypt.hash(newPassword, 10, function(err, hash) {
+		 		if(err){
+		 			return err;
+		 		} else {
+					console.log('in else statement of bcrypt')
+					hash = ' "' + hash + '"';
+					conn.query("UPDATE Admin SET passwordHash =" + hash + " WHERE username=" + username, (err, result, fields) => {
+						if(err) throw err;
+						console.log('in query');
+						console.log('calling security login');
+			 			res.redirect('/securityLogin');
+					});
+		 			//TODO reset password hash in database
+		 			//user.passwordHash = hash;
+		 		}
+		 	});
+		 	//res.redirect('/securityLogin');
+		} else {
+			console.log('incorrect PIN');
+			res.redirect('/changePassword');
+		}
+	});
 };
+
+
+
 
 /*
 	Sets up login for Password with needed database interaction
