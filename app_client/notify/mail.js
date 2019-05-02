@@ -36,11 +36,10 @@ const transporter = mailer.createTransport({
 });
 
 /*
-  Sends an email to UPS security with the .csv file specified by filepath (filepath is a relative path the the file in question)
+  Sends an email to UPS security with the .csv file specified by filepath (filepath
+	is a relative path to the file in question)
 */
 module.exports.sendSecurityReport = (filepath) => {
-	console.log('in send security');
-	console.log(filepath);
 	// get date for email subject
 	var date = new Date();
 	var now = date.toDateString();
@@ -54,7 +53,7 @@ module.exports.sendSecurityReport = (filepath) => {
 		attachments: [
 			{
 				filename: 'checkin.csv',
-				path: filepath//path.join(__dirname, filepath)
+				path: filepath
 			}
 		]
 	};
@@ -71,8 +70,6 @@ module.exports.sendSecurityReport = (filepath) => {
 */
 module.exports.generateAuthToken = (studentEmail) => {
 	let authToken = crypto.createHash('sha1').update(seed + studentEmail).digest('hex');
-	console.log('authToken: ');
-	console.log(authToken);
 	return authToken;
 };
 
@@ -110,7 +107,3 @@ module.exports.sendChangePassword = (pin) => {
 		else console.log(now + ': sending email to security services with PIN');
 	});
 }
-
-// sendSecurityReport('../../app_db/reports/test.csv');
-// TODO UNCOMMENT LATER
-//module.exports.sendStudentConfirmEmail('bscarbrough@pugetsound.edu');
