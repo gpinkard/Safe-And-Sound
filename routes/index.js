@@ -14,15 +14,7 @@ const ctrlDb = require('../app_db/db');
 
 const fs  = require('fs');
 
-let user = null; // this represents the logged in user
-
-/*
-######### TODO #########
-have email saved somehow on initStudentData, then add to userConfirmLookup which will map
-the confirm/auth_token url to a email address. If the email address matches the auth
-token, we confirm them as save in the db.
-*/
-let userConfirmLookup = {}; // object that maps confirm tokens to emails
+let user = null; // this represents the logged in user???
 
 //Keeos login true for 1 day
 router.use(session({
@@ -137,10 +129,6 @@ router.get('/changePassword', (req, res) => {
 router.post('/changePassword', ctrlSecurity.changePassword);
 
 //Verify Safe page, allowing students to verify their checkin using a unique url
-router.get('/confirm_test/*', (req, res) => {
-	console.log('url');
-	console.log(req.url);
-	res.sendFile(path.join(__dirname + '/../views/studentConfirmed.html'));
-});
+router.get('/verify/*', ctrlStudent.confirmStudent);
 
 module.exports = router;

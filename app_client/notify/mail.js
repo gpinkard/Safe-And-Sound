@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const app_email = 'PugetsoundSafeApp@pugetsound.edu';
-const sec_email = 'bscarbrough@pugetsound.edu';
+const sec_email = 'khoefflinger@pugetsound.edu';
 const passwordFileName = 'password.txt';
 // for confirm email
 const seed = crypto.randomBytes(20);
@@ -36,11 +36,10 @@ const transporter = mailer.createTransport({
 });
 
 /*
-  Sends an email to UPS security with the .csv file specified by filepath (filepath is a relative path the the file in question)
+  Sends an email to UPS security with the .csv file specified by filepath (filepath
+	is a relative path to the file in question)
 */
 module.exports.sendSecurityReport = (filepath) => {
-	console.log('in send security');
-	console.log(filepath);
 	// get date for email subject
 	var date = new Date();
 	var now = date.toDateString();
@@ -54,7 +53,7 @@ module.exports.sendSecurityReport = (filepath) => {
 		attachments: [
 			{
 				filename: 'checkin.csv',
-				path: filepath//path.join(__dirname, filepath)
+				path: filepath
 			}
 		]
 	};
@@ -71,8 +70,6 @@ module.exports.sendSecurityReport = (filepath) => {
 */
 module.exports.generateAuthToken = (studentEmail) => {
 	let authToken = crypto.createHash('sha1').update(seed + studentEmail).digest('hex');
-	console.log('authToken: ');
-	console.log(authToken);
 	return authToken;
 };
 
@@ -80,7 +77,7 @@ module.exports.generateAuthToken = (studentEmail) => {
 	Sends student email with unique confirmation URL
 */
 module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) => {
-	let confirmURL = 'localhost:3000/confirm_test/' + authToken;
+	let confirmURL = 'localhost:3000/verify/' + authToken;
 
 	//Details for student confirmation email
 	var mailOptions = {
@@ -110,7 +107,3 @@ module.exports.sendChangePassword = (pin) => {
 		else console.log(now + ': sending email to security services with PIN');
 	});
 }
-
-// sendSecurityReport('../../app_db/reports/test.csv');
-// TODO UNCOMMENT LATER
-//module.exports.sendStudentConfirmEmail('bscarbrough@pugetsound.edu');

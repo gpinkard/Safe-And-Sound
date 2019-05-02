@@ -36,7 +36,6 @@ conn.connect( (err) => {
 */
 exports.setPIN = (pin, username) => {
 	username = ' "' + username + '"';
-	console.log('pin in set: ' + pin);
 	conn.query("UPDATE Admin SET pin = " + pin + " WHERE username=" + username);
 };
 
@@ -48,9 +47,6 @@ exports.getPIN = (username, theirPIN, newPassword, res) => {
 	conn.query("SELECT pin FROM Admin WHERE username=" + username, (err, result, fields) => {
 		if(err) throw err;
 		const jsonPIN = JSON.parse(JSON.stringify(result));
-		console.log('pin(db): ');
-		console.log(jsonPIN[0].pin);
-		console.log('theirPIN: ' + theirPIN);
 		var pin = Number(jsonPIN[0].pin);
 		theirPIN = Number(theirPIN);
 
@@ -58,7 +54,6 @@ exports.getPIN = (username, theirPIN, newPassword, res) => {
 		//set password with bcrypt
 		//redirect
 		if(theirPIN === pin) {
-		 	console.log('in if statement');
 		 	bcrypt.hash(newPassword, 10, function(err, hash) {
 		 		if(err){
 		 			return err;
@@ -71,20 +66,15 @@ exports.getPIN = (username, theirPIN, newPassword, res) => {
 						console.log('calling security login');
 			 			res.redirect('/securityLogin');
 					});
-		 			//TODO reset password hash in database
-		 			//user.passwordHash = hash;
 		 		}
 		 	});
-		 	//res.redirect('/securityLogin');
 		} else {
+			//if PINs did not match
 			console.log('incorrect PIN');
 			res.redirect('/changePassword');
 		}
 	});
 };
-
-
-
 
 /*
 	Sets up login for Password with needed database interaction
@@ -98,7 +88,6 @@ exports.loginHelper = ((username, password, done) => {
 
 		const jsonSecurity = JSON.parse(JSON.stringify(result));
 		let passwordStr = '';
-		//console.log(jsonSecurity[0]);
 		if(jsonSecurity.length !== 0) {
 			passwordStr = jsonSecurity[0].passwordHash;
 		}
@@ -109,7 +98,7 @@ exports.loginHelper = ((username, password, done) => {
 
 			//Incorrect password
 			if(!isValid) {
-				console.log('incorrect password...');
+				console.log('incorrect password');
 				return done(null, false, {message: 'Incorrect password'});
 			} else {
 				//Correct password
@@ -118,8 +107,6 @@ exports.loginHelper = ((username, password, done) => {
 				tempUser.username = jsonSecurity[0].username;
 				tempUser.password = jsonSecurity[0].passwordHash;
 				tempUser.id = jsonSecurity[0].idAdmin;
-				//console.log('tempUser:');
-				//console.log(tempUser);
 				return done(null, tempUser);
 			}
 		});
@@ -167,10 +154,26 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
 
-	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', "+isVerified+", '"+link+"')");
 
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
+	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
+
+/*
+Confirms student check in
+*/
+exports.confirmStudent = (req, res) => {
+	let linkArr = req.url.split('/');
+	let link = ' "' + linkArr[linkArr.length-1] + '"'; //grabs on the authToken
+
+	//sets related user to verified, if corresponding link is found
+	conn.query("UPDATE CheckIn SET verified = 1 WHERE link = " + link, (err, result, fields) => {
+		if(err) throw err;
+		//check for whether user exists??
+		res.sendFile(path.join(__dirname, '/../views/studentConfirmed.html'));
+		}
+	);
+}
 
 /*
 	A function to clear all values from the given table
@@ -184,24 +187,20 @@ exports.deleteTable = (table) => {
 */
 
 exports.exportTable = () => {
-	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
-	//conn.query('SELECT lName, fName, phoneNum, email FROM Student', (err,  result, fields) => {
+	conn.query('SELECT lName, fName, timeOf, phoneNum, email, lat, lng, verified from Student NATURAL JOIN CheckIn GROUP BY phoneNum ORDER BY lName, timeOf DESC', (err, result, fields) => {
 		const jsonStudents = JSON.parse(JSON.stringify(result));
-		//const csvFields = ['lName', 'fName', 'phoneNum', 'email', 'lat', 'lng', 'time'];
 
-		const csvFields = ['lName, fName, timeOf, phoneNum, email, lat, lng'];
+		const csvFields = ['lName, fName, timeOf, phoneNum, email, lat, lng, verified'];
 		const json2CSVParser = new parser({csvFields});
 		let data = '';
 		if(jsonStudents.length !== 0) {
 			data = json2CSVParser.parse(jsonStudents);
 		}
 		let now = makeNumericDateString();
-		console.log('now: ' + now);
-		console.log(data);
 		let filename = __dirname + '/SecurityReports/'+ now + '.csv';
 		console.log('writing file to ' + filename);
 		fs.writeFile(filename, data, (err) => {
-			if(err) console.log(err);
+			if(err) throw (err);
 		})
 		notify.sendSecurityReport('../Safe-And-Sound/app_db/SecurityReports/' + now + '.csv');
 	});
