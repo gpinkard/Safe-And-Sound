@@ -58,12 +58,9 @@ exports.getPIN = (username, theirPIN, newPassword, res) => {
 		 		if(err){
 		 			return err;
 		 		} else {
-					console.log('in else statement of bcrypt')
 					hash = ' "' + hash + '"';
 					conn.query("UPDATE Admin SET passwordHash =" + hash + " WHERE username=" + username, (err, result, fields) => {
 						if(err) throw err;
-						console.log('in query');
-						console.log('calling security login');
 			 			res.redirect('/securityLogin');
 					});
 		 		}
@@ -154,7 +151,7 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
 
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', "+isVerified+", '"+link+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
 
 	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
@@ -167,7 +164,7 @@ exports.confirmStudent = (req, res) => {
 	let link = ' "' + linkArr[linkArr.length-1] + '"'; //grabs on the authToken
 
 	//sets related user to verified, if corresponding link is found
-	conn.query("UPDATE CheckIn SET verified = 1 WHERE link = " + link, (err, result, fields) => {
+	conn.query("UPDATE CheckIn SET verified = 1 WHERE link =" + link, (err, result, fields) => {
 		if(err) throw err;
 		//check for whether user exists??
 		res.sendFile(path.join(__dirname, '/../views/studentConfirmed.html'));
