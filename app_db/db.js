@@ -58,12 +58,9 @@ exports.getPIN = (username, theirPIN, newPassword, res) => {
 		 		if(err){
 		 			return err;
 		 		} else {
-					console.log('in else statement of bcrypt')
 					hash = ' "' + hash + '"';
 					conn.query("UPDATE Admin SET passwordHash =" + hash + " WHERE username=" + username, (err, result, fields) => {
 						if(err) throw err;
-						console.log('in query');
-						console.log('calling security login');
 			 			res.redirect('/securityLogin');
 					});
 		 		}
@@ -154,7 +151,7 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
 	var time = makeNumericDateString();
 
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', "+isVerified+", '"+link+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
 
 	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
