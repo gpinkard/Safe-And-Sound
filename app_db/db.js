@@ -162,9 +162,7 @@ Confirms student check in
 exports.confirmStudent = (req, res) => {
 	let linkArr = req.url.split('/');
 	let link = linkArr[linkArr.length-1].toString(); //grabs on the authToken
-	console.log(link);
-
-	var sql
+	
 	//sets related user to verified, if corresponding link is found
 	conn.query("UPDATE CheckIn SET verified = 'Verified' WHERE link = '"+link+"'", function(err, result) {
 		if(err) throw err;
