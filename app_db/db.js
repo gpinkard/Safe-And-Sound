@@ -148,10 +148,10 @@ exports.studentQuery = (firstname, lastname, email, phone) => {
 /*
 	A fuction to insert into the checkIn table.
 */
-exports.checkInQuery = (lat, lng, phone, isVerified, link) => {
+exports.checkInQuery = (lat, lng, phone, link) => {
 	var time = makeNumericDateString();
 
-	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', '"+isVerified+"', '"+link+"')");
+	conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', NULL, '"+link+"')");
 
 	//conn.query("REPLACE INTO CheckIn VALUES ('"+time+"', '"+lat+"', '"+lng+"', '"+phone+"', null, null)");
 };
@@ -162,7 +162,7 @@ Confirms student check in
 exports.confirmStudent = (req, res) => {
 	let linkArr = req.url.split('/');
 	let link = linkArr[linkArr.length-1].toString(); //grabs on the authToken
-	
+
 	//sets related user to verified, if corresponding link is found
 	conn.query("UPDATE CheckIn SET verified = 'Verified' WHERE link = '"+link+"'", function(err, result) {
 		if(err) throw err;
