@@ -161,15 +161,24 @@ Confirms student check in
 */
 exports.confirmStudent = (req, res) => {
 	let linkArr = req.url.split('/');
-	let link = ' "' + linkArr[linkArr.length-1] + '"'; //grabs on the authToken
+	let link = linkArr[linkArr.length-1].toString(); //grabs on the authToken
+	console.log(link);
 
+	var sql
 	//sets related user to verified, if corresponding link is found
-	conn.query("UPDATE CheckIn SET verified = 1 WHERE link =" + link, (err, result, fields) => {
+	conn.query("UPDATE CheckIn SET verified = 'Verified' WHERE link = '"+link+"'", function(err, result) {
 		if(err) throw err;
-		//check for whether user exists??
-		res.sendFile(path.join(__dirname, '/../views/studentConfirmed.html'));
-		}
-	);
+		if(result.affectedRows > 0){
+			res.sendFile(path.join(__dirname, '/../views/studentConfirmed.html'));
+		} else res.redirect('/');
+		});
+	// , (err, result, fields) => {
+	//
+	// }
+	// 		if(err) throw err;
+	// 		//check for whether user exists??
+	// 		res.sendFile(path.join(__dirname, '/../views/studentConfirmed.html'));
+	// 	}"");
 }
 
 /*
