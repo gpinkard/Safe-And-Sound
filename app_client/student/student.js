@@ -41,7 +41,7 @@ module.exports.initStudentData = (req, res) => {
 	//Adds student to the Student table
 	database.studentQuery(firstname, lastname, email, phone); // insert authentication token here
 	//Adds this checkin to the Checkin table
-	database.checkInQuery(lat, lng, phone, null, confirmString);
+	database.checkInQuery(lat, lng, phone, confirmString);
 	//Sends the confirmation email with the unique confirmation URL
 	mail.sendStudentConfirmEmail(email, firstname, confirmString);
 	// call email function
