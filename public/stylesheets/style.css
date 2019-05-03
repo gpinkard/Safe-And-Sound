@@ -4,6 +4,8 @@ body {
 .jumbotron {
   background-color: lightgray;
   margin: auto;
+  padding-top: 15px;
+  padding-bottom: 3px;
 }
 .page-header {
   background-color: rgb(102, 0, 0);
