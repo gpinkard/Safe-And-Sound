@@ -4,7 +4,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path');
 
-const app_email = 'PugetsoundSafeApp@pugetsound.edu';
+const app_email = 'ups.safeandsound@gmail.com';
 const sec_email = 'khoefflinger@pugetsound.edu';
 const passwordFileName = 'password.txt';
 // for confirm email
@@ -26,12 +26,13 @@ pass = pass.substring(0, pass.length-1);
   Initialize the transporter to send emails with
 */
 const transporter = mailer.createTransport({
-	host: 'webmail.pugetsound.edu',
-	port: 587,
-	secure: false,
+	// host: 'webmail.pugetsound.edu',
+	// port: 587,
+	// secure: false,
+	service: 'gmail',
 	auth: {
 		user: app_email,
-		pass: pass
+		pass: 'Safe@PugetSound2019' //pass
 	}
 });
 
@@ -84,7 +85,7 @@ module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) =>
 		from: app_email,
 		to: studentEmail,
 		subject: 'Verify Safe Check In',
-		text: 'Dear ' + firstName + ', \n\nPlease verify you are safe by clicking on this link:\n' + confirmURL + '\nRemember, this is not a replacement for emergency services.  If you are unsafe, please call 911.\n\nStay Safe, \n-The UPS-Safe Team'
+		text: 'Dear ' + firstName + ', \n\nPlease verify you are safe by clicking on this link:\n' + confirmURL + '\nRemember, this is not a replacement for emergency services.\nGeneral - 911\nCampus Security - (253)879-3311\n\nStay Safe and Sound'
 	}
 
 	transporter.sendMail(mailOptions, (err, info) => {
