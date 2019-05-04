@@ -85,8 +85,8 @@ module.exports.sendStudentConfirmEmail = (studentEmail, firstName, authToken) =>
 		from: app_email,
 		to: studentEmail,
 		subject: 'Verify Safe Check In',
-		text: 'Dear ' + firstName + ', \n\nPlease verify you are safe by clicking on this link:\n' + confirmURL + '\nRemember, this is not a replacement for emergency services.\nGeneral - 911\nCampus Security - (253) 879-3311\n\nStay Safe and Sound'
-		//html: "<p>Dear Student,</p><p>Please verify you are safe by clicking <a href='52.42.69.191/verify/' + authToken>here</a> (confirmURL)</p><p>Remember, this is not a replacement for emergency services.  Please contact 911 (general emergency services) or (253) 879-3311 (Campus Security Services).</p><br><p>Stay Safe and Sound</p>"
+		text: 'Dear ' + firstName + ', \n\nPlease verify you are safe by copy and pasting this link - ' + confirmURL + ' - to your browser. \n\nRemember, this is not a replacement for emergency services.  If you are in any way unsafe, please contact the following numbers:\nGeneral - 911\nCampus Security - (253) 879-3311\n\nStay Safe and Sound'
+		//html: "<p>Dear Student,</p><p>Please verify you are safe by clicking <a href={{confirmURL}}>here</a> ({{confirmURL}})</p><p>Remember, this is not a replacement for emergency services.  Please contact 911 (general emergency services) or (253) 879-3311 (Campus Security Services).</p><br><p>Stay Safe and Sound</p>"
 	}
 
 	transporter.sendMail(mailOptions, (err, info) => {
