@@ -33,13 +33,13 @@ function validateForm () {
 
   // This regex checks every special character/ number and makes sure it is not in the name. Allows accents.
   if(/[0-9-'`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/.test(first.value)){
-    alert("First names do not contain numbers.");
+    alert("First names do not contain numbers or special characters.");
     first.focus();
     return false;
   }
 
   if(/[0-9-'`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/.test(last.value)){
-    alert("Last names do not contain numbers.");
+    alert("Last names do not contain numbers or special characters.");
     first.focus();
     return false;
   }
