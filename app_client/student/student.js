@@ -20,9 +20,9 @@ const database = require('../../app_db/db.js');
  * the student a confirmation email**
 */
 module.exports.initStudentData = (req, res) => {
-	var firstname = req.body.firstname;
-	var lastname = req.body.lastname;
-	var email = req.body.email;
+	var firstname = req.body.firstname.replace(/\s/g, ''); // Clears any whitespaces
+	var lastname = req.body.lastname.replace(/\s/g, ''); // Clears any whitespaces
+	var email = req.body.email.replace(/\s/g, ''); // Clears any whitespaces
 	var phone = req.body.phone.replace(/\D/g, ''); //inserts only the number
 	var lat = req.body.lat;
 	var lng = req.body.lng;

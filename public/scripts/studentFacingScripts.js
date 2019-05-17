@@ -8,6 +8,8 @@ function validateForm () {
   var phoneLength = phone.value.replace(/\D/g, '').length;
 
   var email = document.forms['studentFF']["email"];
+  var first = document.forms['studentFF']["firstname"];
+  var last = document.forms['studentFF']["lastname"];
 
   /**
   A condition to check that the phone number ranges from at least 10 digits to at max 15 (the length of a complete international number).
@@ -23,10 +25,23 @@ function validateForm () {
   */
   if(!email.value.includes("@pugetsound.edu")){
     if(email.value.includes("@")){
-      alert("Please enter a valid email.")
+      alert("Please enter a valid email.");
       email.focus();
       return false;
     }
+  }
+
+  // This regex checks every special character/ number and makes sure it is not in the name. Allows accents.
+  if(/[0-9-'`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/.test(first.value)){
+    alert("First names do not contain numbers or special characters.");
+    first.focus();
+    return false;
+  }
+
+  if(/[0-9-'`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/.test(last.value)){
+    alert("Last names do not contain numbers or special characters.");
+    first.focus();
+    return false;
   }
 };
 
